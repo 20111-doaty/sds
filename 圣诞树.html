@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta property="og:title" content="v我50 分层圣诞树🎄">
-    <meta property="og:description" content="分层真实形状的v我50圣诞树">
-    <meta property="og:type" content="website">
+    <meta property="og:title" content="v我50 分层雪边圣诞树🎄">
+    <meta property="og:description" content="分层雪边+彩球装饰的v我50圣诞树">
     <meta property="og:url" content="https://20111-doaty.github.io/sds/圣诞树.html">
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>v我50 分层圣诞树🎄</title>
+    <title>v我50 分层雪边圣诞树🎄</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #000;
+            background: #000; /* 纯黑背景突出圣诞树 */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -21,65 +20,66 @@
             padding: 2vw;
             overflow: hidden;
         }
-        /* 顶部星星 */
+        /* 顶部星星（参考图的黄色星星） */
         .tree-top {
             font-size: 4vw;
             color: #ffd700;
-            margin-bottom: -1.5vw;
-            animation: starGlow 2s infinite alternate;
-            filter: drop-shadow(0 0 1vw #ffd700);
+            margin-bottom: 0.5vw;
+            text-shadow: 0 0 3px #ffd700;
+            animation: starShake 4s ease-in-out infinite; /* 星星同步轻微抖动 */
         }
-        @keyframes starGlow {
-            0% { filter: drop-shadow(0 0 1vw #ffd700); }
-            100% { filter: drop-shadow(0 0 2vw #ffd700); }
+        @keyframes starShake {
+            0%, 100% { transform: rotate(0deg) translate(0, 0); }
+            50% { transform: rotate(2deg) translate(1px, 1px); }
         }
-        /* 圣诞树主体（分层树形+无代码错乱） */
+        /* 圣诞树主体（分层+雪边+柔和黄光抖动） */
         #treeContainer {
-            font-size: 2vw;
-            line-height: 1.4;
+            font-size: 1.8vw;
+            line-height: 1.6;
             text-align: center;
-            color: #0f6828; /* 深绿色文字，避免渐变导致的标签错乱 */
-            text-shadow: 0 0 0.5vw #34d399;
-            animation: textSparkle 1.5s infinite alternate;
+            color: #0a4d1e; /* 深绿色文字（贴近参考图的树体颜色） */
+            /* 去掉强光，改为柔和黄光阴影 */
+            text-shadow: 0 0 2px rgba(255, 215, 0, 0.6);
+            animation: slowShake 3s ease-in-out infinite; /* 缓慢抖动 */
         }
-        @keyframes textSparkle {
-            0% { text-shadow: 0 0 0.5vw #34d399; }
-            100% { text-shadow: 0 0 1vw #34d399, 0 0 2vw #0f6828; }
+        /* 缓慢抖动动画（轻微位移，自然不突兀） */
+        @keyframes slowShake {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(1px, 1px); }
+            50% { transform: translate(0, 1px); }
+            75% { transform: translate(1px, 0); }
         }
-        /* 装饰（修复标签错乱，仅用字符+颜色） */
-        .deco {
+        /* 雪边模拟（参考图的白色雪边） */
+        .snow-edge {
+            color: #fff;
+            font-size: 1.5vw;
+            text-shadow: 0 0 2px #fff;
+        }
+        /* 彩球装饰（参考图的彩色球） */
+        .ornament {
             display: inline;
-            animation: blink 1.2s infinite alternate;
-            filter: drop-shadow(0 0 0.5vw currentColor);
+            font-size: 1em;
+            text-shadow: 0 0 2px currentColor;
         }
-        .deco-star { color: #ffd700; }
-        .deco-sock { color: #ef4444; }
-        .deco-candy { color: #a855f7; }
+        .ornament-red { color: #ef4444; }
+        .ornament-yellow { color: #ffd700; }
+        .ornament-blue { color: #38bdf8; }
+        .ornament-purple { color: #a855f7; }
         /* 树干 */
         .trunk {
-            font-size: 2.2vw;
-            color: #0a4d1e;
+            font-size: 2vw;
+            color: #8b4513; /* 棕色树干（贴近参考图） */
             text-align: center;
             margin-top: 1vw;
-            text-shadow: 0 0 0.5vw #052e11;
+            text-shadow: 0 0 1px #5c3317;
+            animation: slowShake 3s ease-in-out infinite;
         }
-        /* 雪花（简化避免干扰） */
-        .snowflake {
-            position: absolute;
-            color: #666;
-            font-size: 1.5vw;
-            animation: snowfall linear infinite;
-            top: -5vw;
-            z-index: 0;
-        }
-        @keyframes snowfall {
-            to { transform: translateY(105vh) rotate(360deg); }
-        }
-        /* 手机适配 */
+        /* 手机适配（保证分层形态不崩坏） */
         @media (max-width: 768px) {
-            #treeContainer { font-size: 3.5vw; line-height: 1.5; }
+            #treeContainer { font-size: 3.2vw; line-height: 1.8; }
             .tree-top { font-size: 6vw; }
-            .trunk { font-size: 4vw; }
+            .trunk { font-size: 3.5vw; }
+            .snow-edge { font-size: 2.5vw; }
         }
     </style>
 </head>
@@ -90,53 +90,49 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            renderLayeredTree();
-            createSnow();
+            renderReferenceTree();
         });
 
-        // 生成分层真实圣诞树（修复代码错乱）
-        function renderLayeredTree() {
+        // 参考图形态：5层树体+雪边+彩球
+        function renderReferenceTree() {
             const tree = document.getElementById('treeContainer');
+            // 分层配置：[每层宽度（v我50数量）, 彩球数量]
             const layers = [
-                { rows: 2, count: 2 }, // 第一层：2行，每行2个“v我50”
-                { rows: 3, count: 3 }, // 第二层：3行，每行3个
-                { rows: 4, count: 4 }, // 第三层：4行，每行4个（最宽层）
-                { rows: 3, count: 3 }, // 第四层：3行，每行3个（收窄）
-                { rows: 2, count: 2 }  // 第五层：2行，每行2个（顶部收窄）
+                { width: 2, ornaments: 1 }, // 第1层（最顶层）
+                { width: 3, ornaments: 2 }, // 第2层
+                { width: 4, ornaments: 3 }, // 第3层
+                { width: 5, ornaments: 4 }, // 第4层
+                { width: 6, ornaments: 5 }  // 第5层（最底层，最宽）
             ];
-            const decos = ['<span class="deco deco-star">🌟</span>', '<span class="deco deco-sock">🧦</span>', '<span class="deco deco-candy">🍭</span>'];
+            // 彩球类型
+            const ornaments = [
+                '<span class="ornament ornament-red">🔴</span>',
+                '<span class="ornament ornament-yellow">🟡</span>',
+                '<span class="ornament ornament-blue">🔵</span>',
+                '<span class="ornament ornament-purple">🟣</span>'
+            ];
             let html = '';
 
-            // 遍历每层生成树形
             layers.forEach(layer => {
-                const maxCount = layers.find(l => l.count === Math.max(...layers.map(x => x.count))).count;
-                for (let i = 0; i < layer.rows; i++) {
-                    // 计算居中空格（基于最宽层）
-                    const spaces = '&nbsp;'.repeat(maxCount - layer.count);
-                    // 生成该行“v我50”
-                    let row = 'v我50'.repeat(layer.count);
-                    // 随机插入1个装饰（避免标签错乱）
-                    if (Math.random() > 0.5) {
-                        const deco = decos[Math.floor(Math.random() * decos.length)];
-                        const pos = Math.floor(row.length / 2);
-                        row = row.slice(0, pos) + deco + row.slice(pos);
-                    }
-                    html += spaces + row + '<br>';
+                // 1. 雪边（参考图的白色边缘）
+                const edgeSpaces = '&nbsp;'.repeat(6 - layer.width); // 雪边居中
+                html += edgeSpaces + '<span class="snow-edge">❄️❄️❄️</span><br>';
+                
+                // 2. 树体层（v我50+彩球）
+                const treeSpaces = '&nbsp;'.repeat(6 - layer.width); // 树体居中
+                let row = 'v我50'.repeat(layer.width);
+                // 插入彩球（均匀分布）
+                for (let i = 0; i < layer.ornaments; i++) {
+                    const randomOrn = ornaments[Math.floor(Math.random() * ornaments.length)];
+                    const insertPos = Math.floor(row.length / (layer.ornaments + 1)) * (i + 1);
+                    row = row.slice(0, insertPos) + randomOrn + row.slice(insertPos);
                 }
+                html += treeSpaces + row + '<br>';
             });
-            tree.innerHTML = html;
-        }
 
-        // 生成雪花（简化）
-        function createSnow() {
-            for (let i = 0; i < 30; i++) {
-                const snow = document.createElement('div');
-                snow.className = 'snowflake';
-                snow.textContent = '❄️';
-                snow.style.left = `${Math.random() * 100}vw`;
-                snow.style.animationDuration = `${5 + Math.random() * 10}s`;
-                document.body.appendChild(snow);
-            }
+            // 底部雪边
+            html += '<span class="snow-edge">❄️❄️❄️❄️❄️❄️</span>';
+            tree.innerHTML = html;
         }
     </script>
 </body>
