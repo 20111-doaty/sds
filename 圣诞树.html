@@ -9,7 +9,6 @@
     <meta property="og:url" content="https://20111-doaty.github.io/sds/圣诞树.html">
     
     <meta charset="UTF-8">
-    <!-- 关键：修复移动端视口，避免缩放错乱 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>v我50 超大闪光圣诞树🎄</title>
     <style>
@@ -29,19 +28,20 @@
             justify-content: center;
             padding: 2vw;
             overflow-x: hidden;
-            /* 星星点点适配黑色背景 */
+            /* 低调的星星背景，不抢视觉 */
             background-image: 
                 radial-gradient(circle 0.1vw at 2vw 3vw, #333, transparent),
                 radial-gradient(circle 0.05vw at 4vw 8vw, #333, transparent),
                 radial-gradient(circle 0.1vw at 8vw 12vw, #333, transparent),
                 radial-gradient(circle 0.05vw at 14vw 6vw, #333, transparent);
             background-size: 20vw 20vw;
+            position: relative; /* 雪花定位基准 */
         }
 
-        /* 顶部星星（适配黑色背景） */
+        /* 顶部星星 */
         .tree-top {
             font-size: 4vw;
-            color: #ffd700; /* 金色星星更突出 */
+            color: #ffd700;
             margin-bottom: -1.5vw;
             animation: rotateStar 5s linear infinite, starGlow 2s ease-in-out infinite alternate;
             filter: drop-shadow(0 0 1vw #ffd700);
@@ -58,55 +58,68 @@
             100% { filter: drop-shadow(0 0 2vw #ffd700); }
         }
 
-        /* 圣诞树主体（深绿色+手机排版修复） */
+        /* 圣诞树主体（核心：新增文字闪光+深绿色） */
         #treeContainer {
             font-size: 2.2vw;
-            line-height: 1.2; /* 增加行高，避免手机换行错乱 */
+            line-height: 1.2;
             text-align: center;
             white-space: pre-wrap;
             margin: 1vw 0;
-            /* 深绿色渐变文字（核心修改） */
+            /* 深绿色渐变文字 */
             background: linear-gradient(120deg, #0a4d1e, #0f6828, #148032);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             position: relative;
             z-index: 5;
-            /* 修复手机字符挤压 */
             word-break: keep-all;
             letter-spacing: 0.1vw;
+            /* 新增：v我50文字专属闪光动画 */
+            animation: textSparkle 1.5s ease-in-out infinite alternate;
         }
 
-        /* 装饰字符（适配黑色背景+深绿色主题） */
+        /* 文字闪光关键帧（深绿色光晕） */
+        @keyframes textSparkle {
+            0% {
+                text-shadow: 0 0 0.5vw rgba(10, 77, 30, 0.7), 0 0 1vw rgba(20, 128, 50, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 1vw rgba(10, 77, 30, 1), 0 0 2vw rgba(20, 128, 50, 0.8), 0 0 3vw rgba(52, 211, 153, 0.6);
+            }
+        }
+
+        /* 装饰字符闪光 */
         .deco {
             display: inline-block;
             animation: blink 1.2s ease-in-out infinite alternate;
             filter: drop-shadow(0 0 0.5vw currentColor);
         }
-        .deco-1 { color: #ffd700; animation-delay: 0s; } /* 金色 */
-        .deco-2 { color: #148032; animation-delay: 0.2s; } /* 深绿 */
-        .deco-3 { color: #34d399; animation-delay: 0.4s; } /* 浅绿点缀 */
-        .deco-4 { color: #ffd700; animation-delay: 0.6s; } /* 金色 */
+        .deco-1 { color: #ffd700; animation-delay: 0s; }
+        .deco-2 { color: #148032; animation-delay: 0.2s; }
+        .deco-3 { color: #34d399; animation-delay: 0.4s; }
+        .deco-4 { color: #ffd700; animation-delay: 0.6s; }
 
         @keyframes blink {
             0% { opacity: 0.7; transform: scale(0.9); }
             100% { opacity: 1; transform: scale(1.1); }
         }
 
-        /* 树干（深绿色+手机适配） */
+        /* 树干 */
         .trunk {
-            color: #0a4d1e; /* 深绿色树干 */
+            color: #0a4d1e;
             font-weight: bold;
             text-shadow: 0 0 0.5vw #052e11;
             margin-top: 1vw;
             font-size: 2.5vw;
-            line-height: 1.2; /* 树干行高适配 */
+            line-height: 1.2;
+            /* 树干也加轻微闪光 */
+            animation: textSparkle 2s ease-in-out infinite alternate;
         }
 
-        /* 底部祝福语（适配黑色背景） */
+        /* 底部祝福语 */
         .footer-text {
             margin-top: 2vw;
-            color: #148032; /* 深绿色文字 */
+            color: #148032;
             font-size: 2vw;
             text-shadow: 0 0 0.8vw #052e11;
             animation: textFade 3s ease-in-out infinite alternate;
@@ -117,36 +130,39 @@
             100% { opacity: 1; }
         }
 
-        /* 雪花特效（适配黑色背景） */
+        /* 雪花特效（核心修改：从顶部飘落） */
         .snowflake {
             position: absolute;
-            color: #666; /* 浅灰色雪花，不刺眼 */
+            color: #666;
             opacity: 0.8;
             animation: snowfall linear infinite;
             font-size: 1.5vw;
-            z-index: 1;
+            z-index: 1; /* 雪花在文字下方，不遮挡 */
+            top: -5vw; /* 初始位置在页面最顶端外 */
+            left: 0;
         }
 
+        /* 雪花飘落动画（从顶部到页面底部） */
         @keyframes snowfall {
             from {
-                transform: translateY(-5vw) rotate(0deg);
+                transform: translateY(0) rotate(0deg); /* 从顶部开始下落 */
                 opacity: 0;
             }
-            20% {
-                opacity: 1;
+            10% {
+                opacity: 1; /* 刚进入页面就显示 */
             }
             to {
-                transform: translateY(100vh) rotate(360deg);
+                transform: translateY(105vh) rotate(360deg); /* 落到页面底部外 */
                 opacity: 0;
             }
         }
 
-        /* 核心：手机端精细化适配（修复排版错乱） */
+        /* 手机端适配 */
         @media (max-width: 768px) {
             #treeContainer {
-                font-size: 3.8vw; /* 增大手机端字体，避免过小 */
-                line-height: 1.3; /* 进一步增加行高 */
-                letter-spacing: 0.2vw; /* 增加字符间距 */
+                font-size: 3.8vw;
+                line-height: 1.3;
+                letter-spacing: 0.2vw;
             }
             .tree-top {
                 font-size: 6vw;
@@ -160,13 +176,13 @@
                 font-size: 3.2vw;
             }
             .snowflake {
-                font-size: 2vw; /* 手机端雪花稍大 */
+                font-size: 2vw;
             }
         }
         @media (max-width: 480px) {
             #treeContainer {
-                font-size: 4.8vw; /* 小屏进一步放大 */
-                line-height: 1.4; /* 最大行高，彻底避免换行错乱 */
+                font-size: 4.8vw;
+                line-height: 1.4;
                 letter-spacing: 0.3vw;
             }
             .tree-top {
@@ -198,7 +214,7 @@
             createSnowflakes();
         });
 
-        // 生成圣诞树（优化手机空格适配）
+        // 生成圣诞树
         function renderChristmasTree() {
             const treeContainer = document.getElementById('treeContainer');
             const trunkContainer = document.getElementById('trunkContainer');
@@ -212,12 +228,9 @@
             
             let treeHtml = '';
             for (let i = 0; i < treeHeight; i++) {
-                // 优化空格数量：手机端避免过多空格导致树形溢出
                 const spaces = '&nbsp;'.repeat(Math.max(treeHeight - i - 1, 0));
-                // 减少多余空格，避免手机字符挤压
                 let rowText = ('v我50').repeat(i + 1);
-                // 每2行插入装饰，数量适配手机
-                if (i % 2 === 1 && i < 14) { // 避免最后几行装饰挤在一起
+                if (i % 2 === 1 && i < 14) {
                     const randomDeco = decorations[Math.floor(Math.random() * decorations.length)];
                     const insertPos = Math.floor(rowText.length / 2);
                     rowText = rowText.slice(0, insertPos) + randomDeco + rowText.slice(insertPos);
@@ -226,7 +239,6 @@
             }
             treeContainer.innerHTML = treeHtml;
 
-            // 树干适配手机
             const trunkSpaces = '&nbsp;'.repeat(Math.max(treeHeight - 1, 0));
             trunkContainer.innerHTML = 
                 trunkSpaces + 'v我50<br>' + 
@@ -235,16 +247,19 @@
                 trunkSpaces + 'v我50';
         }
 
-        // 雪花特效（适配手机）
+        // 生成雪花（从顶部飘落）
         function createSnowflakes() {
-            const snowCount = 40; // 减少手机端雪花数量，避免卡顿
+            const snowCount = 40;
             const body = document.body;
             for (let i = 0; i < snowCount; i++) {
                 const snowflake = document.createElement('div');
                 snowflake.className = 'snowflake';
                 snowflake.textContent = '❄️';
+                // 随机水平位置
                 snowflake.style.left = `${Math.random() * 100}vw`;
-                snowflake.style.animationDuration = `${5 + Math.random() * 10}s`;
+                // 随机飘落时长（3-15秒）
+                snowflake.style.animationDuration = `${3 + Math.random() * 12}s`;
+                // 随机延迟，避免雪花同时下落
                 snowflake.style.animationDelay = `${Math.random() * 5}s`;
                 body.appendChild(snowflake);
             }
@@ -252,4 +267,3 @@
     </script>
 </body>
 </html>
-
