@@ -2,15 +2,15 @@
 <html lang="zh-CN">
 <head>
     <!-- 社交分享标签 -->
-    <meta property="og:title" content="v我50 超大闪光圣诞树🎄">
-    <meta property="og:description" content="超好看的超大闪光圣诞树，适配所有屏幕～">
+    <meta property="og:title" content="v我50 超大动态圣诞树🎄">
+    <meta property="og:description" content="摇摆+飘雪+装饰旋转的动态圣诞树">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://picsum.photos/600/400?christmas">
     <meta property="og:url" content="https://20111-doaty.github.io/sds/圣诞树.html">
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>v我50 超大闪光圣诞树🎄</title>
+    <title>v我50 超大动态圣诞树🎄</title>
     <style>
         * {
             margin: 0;
@@ -20,7 +20,9 @@
 
         body {
             font-family: "Microsoft YaHei", sans-serif;
-            background: #000; /* 纯黑背景 */
+            /* 新增：背景呼吸渐变（微弱） */
+            background: linear-gradient(135deg, #000, #051a09);
+            animation: bgBreath 8s ease-in-out infinite alternate;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -28,22 +30,24 @@
             justify-content: center;
             padding: 2vw;
             overflow-x: hidden;
-            /* 低调的星星背景，不抢视觉 */
-            background-image: 
-                radial-gradient(circle 0.1vw at 2vw 3vw, #333, transparent),
-                radial-gradient(circle 0.05vw at 4vw 8vw, #333, transparent),
-                radial-gradient(circle 0.1vw at 8vw 12vw, #333, transparent),
-                radial-gradient(circle 0.05vw at 14vw 6vw, #333, transparent);
-            background-size: 20vw 20vw;
-            position: relative; /* 雪花定位基准 */
+            position: relative;
         }
 
-        /* 顶部星星 */
+        /* 新增：背景呼吸动画 */
+        @keyframes bgBreath {
+            0% { background: linear-gradient(135deg, #000, #051a09); }
+            100% { background: linear-gradient(135deg, #000, #0a2e12); }
+        }
+
+        /* 顶部星星（新增呼吸缩放+保留旋转） */
         .tree-top {
             font-size: 4vw;
             color: #ffd700;
             margin-bottom: -1.5vw;
-            animation: rotateStar 5s linear infinite, starGlow 2s ease-in-out infinite alternate;
+            animation: 
+                rotateStar 5s linear infinite, 
+                starGlow 2s ease-in-out infinite alternate,
+                starBreath 3s ease-in-out infinite alternate; /* 新增缩放 */
             filter: drop-shadow(0 0 1vw #ffd700);
             z-index: 10;
         }
@@ -58,14 +62,19 @@
             100% { filter: drop-shadow(0 0 2vw #ffd700); }
         }
 
-        /* 圣诞树主体（核心修改：去掉发光，新增文字闪动） */
+        /* 新增：星星呼吸缩放 */
+        @keyframes starBreath {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* 圣诞树主体（保留文字闪动+新增整体摇摆） */
         #treeContainer {
             font-size: 2.2vw;
             line-height: 1.2;
             text-align: center;
             white-space: pre-wrap;
             margin: 1vw 0;
-            /* 深绿色渐变文字（保留），去掉发光阴影 */
             background: linear-gradient(120deg, #0a4d1e, #0f6828, #148032);
             -webkit-background-clip: text;
             background-clip: text;
@@ -74,20 +83,30 @@
             z-index: 5;
             word-break: keep-all;
             letter-spacing: 0.1vw;
-            /* 新增：文字缓慢闪动动画（替换原发光） */
-            animation: textFlicker 2s ease-in-out infinite alternate;
+            animation: 
+                textFlicker 2s ease-in-out infinite alternate,
+                treeSway 6s ease-in-out infinite; /* 新增整体摇摆 */
         }
 
-        /* 新增：文字闪动关键帧（仅透明度变化，无发光） */
+        /* 文字闪动（保留） */
         @keyframes textFlicker {
             0% { opacity: 0.7; }
             100% { opacity: 1; }
         }
 
-        /* 装饰字符闪光（保留原有） */
+        /* 新增：圣诞树整体摇摆（幅度极小，自然） */
+        @keyframes treeSway {
+            0%, 100% { transform: rotate(0deg) translateX(0); }
+            25% { transform: rotate(0.5deg) translateX(0.5vw); }
+            75% { transform: rotate(-0.5deg) translateX(-0.5vw); }
+        }
+
+        /* 装饰字符（新增旋转+保留闪光） */
         .deco {
             display: inline-block;
-            animation: blink 1.2s ease-in-out infinite alternate;
+            animation: 
+                blink 1.2s ease-in-out infinite alternate,
+                decoRotate 4s ease-in-out infinite alternate; /* 新增旋转 */
             filter: drop-shadow(0 0 0.5vw currentColor);
         }
         .deco-1 { color: #ffd700; animation-delay: 0s; }
@@ -100,57 +119,70 @@
             100% { opacity: 1; transform: scale(1.1); }
         }
 
-        /* 树干（去掉发光，新增文字闪动） */
+        /* 新增：装饰元素缓慢旋转 */
+        @keyframes decoRotate {
+            0% { transform: rotate(0deg) scale(0.9); }
+            100% { transform: rotate(10deg) scale(1.1); }
+        }
+
+        /* 树干（保留闪动+同步摇摆） */
         .trunk {
             color: #0a4d1e;
             font-weight: bold;
-            /* 去掉发光阴影 */
             text-shadow: none;
             margin-top: 1vw;
             font-size: 2.5vw;
             line-height: 1.2;
-            /* 新增：树干同步闪动 */
-            animation: textFlicker 2.5s ease-in-out infinite alternate;
+            animation: 
+                textFlicker 2.5s ease-in-out infinite alternate,
+                treeSway 6s ease-in-out infinite; /* 同步摇摆 */
         }
 
-        /* 底部祝福语（去掉发光，新增闪动） */
+        /* 底部祝福语（保留闪动） */
         .footer-text {
             margin-top: 2vw;
             color: #148032;
             font-size: 2vw;
-            /* 去掉发光阴影 */
             text-shadow: none;
-            /* 新增：祝福语闪动 */
             animation: textFlicker 3s ease-in-out infinite alternate;
         }
 
-        /* 雪花特效（保留原有） */
+        /* 雪花特效（新增左右飘摆+保留下落） */
         .snowflake {
             position: absolute;
             color: #666;
             opacity: 0.8;
-            animation: snowfall linear infinite;
+            animation: 
+                snowfall 8s linear infinite,
+                snowSway 4s ease-in-out infinite alternate; /* 新增左右飘摆 */
             font-size: 1.5vw;
-            z-index: 1; /* 雪花在文字下方，不遮挡 */
-            top: -5vw; /* 初始位置在页面最顶端外 */
+            z-index: 1;
+            top: -5vw;
             left: 0;
         }
 
+        /* 雪花下落（保留） */
         @keyframes snowfall {
             from {
-                transform: translateY(0) rotate(0deg); /* 从顶部开始下落 */
+                transform: translateY(0) rotate(0deg);
                 opacity: 0;
             }
             10% {
-                opacity: 1; /* 刚进入页面就显示 */
+                opacity: 1;
             }
             to {
-                transform: translateY(105vh) rotate(360deg); /* 落到页面底部外 */
+                transform: translateY(105vh) rotate(360deg);
                 opacity: 0;
             }
         }
 
-        /* 手机端适配（保留原有） */
+        /* 新增：雪花左右飘摆 */
+        @keyframes snowSway {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(2vw); }
+        }
+
+        /* 手机端适配（同步调整动画） */
         @media (max-width: 768px) {
             #treeContainer {
                 font-size: 3.8vw;
@@ -170,6 +202,7 @@
             }
             .snowflake {
                 font-size: 2vw;
+                animation: snowfall 10s linear infinite, snowSway 5s ease-in-out infinite alternate;
             }
         }
         @media (max-width: 480px) {
@@ -191,6 +224,7 @@
             }
             .snowflake {
                 font-size: 2.5vw;
+                animation: snowfall 12s linear infinite, snowSway 6s ease-in-out infinite alternate;
             }
         }
     </style>
@@ -240,7 +274,7 @@
                 trunkSpaces + 'v我50';
         }
 
-        // 生成雪花（保留原有）
+        // 生成雪花（保留原有，动画在CSS中修改）
         function createSnowflakes() {
             const snowCount = 40;
             const body = document.body;
@@ -248,11 +282,8 @@
                 const snowflake = document.createElement('div');
                 snowflake.className = 'snowflake';
                 snowflake.textContent = '❄️';
-                // 随机水平位置
                 snowflake.style.left = `${Math.random() * 100}vw`;
-                // 随机飘落时长（3-15秒）
-                snowflake.style.animationDuration = `${3 + Math.random() * 12}s`;
-                // 随机延迟，避免雪花同时下落
+                snowflake.style.animationDuration = `${8 + Math.random() * 8}s`; // 适配新动画时长
                 snowflake.style.animationDelay = `${Math.random() * 5}s`;
                 body.appendChild(snowflake);
             }
