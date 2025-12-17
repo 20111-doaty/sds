@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <!-- 社交分享标签 -->
-    <meta property="og:title" content="v我50 超大动态圣诞树🎄">
-    <meta property="og:description" content="摇摆+飘雪+装饰旋转的动态圣诞树">
+    <meta property="og:title" content="v我50 全设备适配圣诞树🎄">
+    <meta property="og:description" content="流畅适配手机/平板/电脑的动态圣诞树">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://picsum.photos/600/400?christmas">
     <meta property="og:url" content="https://20111-doaty.github.io/sds/圣诞树.html">
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>v我50 超大动态圣诞树🎄</title>
+    <title>v我50 全设备适配圣诞树🎄</title>
     <style>
         * {
             margin: 0;
@@ -18,9 +17,15 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            touch-action: pan-none; /* 禁止触摸干扰 */
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         body {
             font-family: "Microsoft YaHei", sans-serif;
-            /* 新增：背景呼吸渐变（微弱） */
             background: linear-gradient(135deg, #000, #051a09);
             animation: bgBreath 8s ease-in-out infinite alternate;
             min-height: 100vh;
@@ -29,139 +34,210 @@
             align-items: center;
             justify-content: center;
             padding: 2vw;
-            overflow-x: hidden;
             position: relative;
         }
 
-        /* 新增：背景呼吸动画 */
+        /* 兼容性前缀：背景呼吸 */
+        @-webkit-keyframes bgBreath {
+            0% { background: linear-gradient(135deg, #000, #051a09); }
+            100% { background: linear-gradient(135deg, #000, #0a2e12); }
+        }
         @keyframes bgBreath {
             0% { background: linear-gradient(135deg, #000, #051a09); }
             100% { background: linear-gradient(135deg, #000, #0a2e12); }
         }
 
-        /* 顶部星星（新增呼吸缩放+保留旋转） */
+        /* 顶部星星（硬件加速+兼容前缀） */
         .tree-top {
             font-size: 4vw;
             color: #ffd700;
             margin-bottom: -1.5vw;
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
+            -webkit-animation: 
+                rotateStar 5s linear infinite, 
+                starGlow 2s ease-in-out infinite alternate,
+                starBreath 3s ease-in-out infinite alternate;
             animation: 
                 rotateStar 5s linear infinite, 
                 starGlow 2s ease-in-out infinite alternate,
-                starBreath 3s ease-in-out infinite alternate; /* 新增缩放 */
+                starBreath 3s ease-in-out infinite alternate;
             filter: drop-shadow(0 0 1vw #ffd700);
             z-index: 10;
         }
 
+        @-webkit-keyframes rotateStar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
         @keyframes rotateStar {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
 
+        @-webkit-keyframes starGlow {
+            0% { filter: drop-shadow(0 0 1vw #ffd700); }
+            100% { filter: drop-shadow(0 0 2vw #ffd700); }
+        }
         @keyframes starGlow {
             0% { filter: drop-shadow(0 0 1vw #ffd700); }
             100% { filter: drop-shadow(0 0 2vw #ffd700); }
         }
 
-        /* 新增：星星呼吸缩放 */
+        @-webkit-keyframes starBreath {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
         @keyframes starBreath {
             0% { transform: scale(1); }
             100% { transform: scale(1.1); }
         }
 
-        /* 圣诞树主体（保留文字闪动+新增整体摇摆） */
+        /* 圣诞树主体（响应式+硬件加速+兼容前缀） */
         #treeContainer {
             font-size: 2.2vw;
             line-height: 1.2;
             text-align: center;
             white-space: pre-wrap;
             margin: 1vw 0;
-            background: linear-gradient(120deg, #0a4d1e, #0f6828, #148032);
+            background: linear-gradient(120deg, #148032, #19a347, #1ed658);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            position: relative;
-            z-index: 5;
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
             word-break: keep-all;
             letter-spacing: 0.1vw;
+            text-shadow: 0 0 0.3vw rgba(255, 255, 255, 0.4);
+            -webkit-animation: 
+                textFlicker 2s ease-in-out infinite alternate,
+                treeSway 6s ease-in-out infinite;
             animation: 
                 textFlicker 2s ease-in-out infinite alternate,
-                treeSway 6s ease-in-out infinite; /* 新增整体摇摆 */
+                treeSway 6s ease-in-out infinite;
         }
 
-        /* 文字闪动（保留） */
+        @-webkit-keyframes textFlicker {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
         @keyframes textFlicker {
-            0% { opacity: 0.7; }
+            0% { opacity: 0.8; }
             100% { opacity: 1; }
         }
 
-        /* 新增：圣诞树整体摇摆（幅度极小，自然） */
+        @-webkit-keyframes treeSway {
+            0%, 100% { transform: rotate(0deg) translateX(0); }
+            25% { transform: rotate(0.5deg) translateX(0.5vw); }
+            75% { transform: rotate(-0.5deg) translateX(-0.5vw); }
+        }
         @keyframes treeSway {
             0%, 100% { transform: rotate(0deg) translateX(0); }
             25% { transform: rotate(0.5deg) translateX(0.5vw); }
             75% { transform: rotate(-0.5deg) translateX(-0.5vw); }
         }
 
-        /* 装饰字符（新增旋转+保留闪光） */
+        /* 装饰字符 */
         .deco {
             display: inline-block;
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
+            -webkit-animation: 
+                blink 1.2s ease-in-out infinite alternate,
+                decoRotate 4s ease-in-out infinite alternate;
             animation: 
                 blink 1.2s ease-in-out infinite alternate,
-                decoRotate 4s ease-in-out infinite alternate; /* 新增旋转 */
+                decoRotate 4s ease-in-out infinite alternate;
             filter: drop-shadow(0 0 0.5vw currentColor);
         }
         .deco-1 { color: #ffd700; animation-delay: 0s; }
-        .deco-2 { color: #148032; animation-delay: 0.2s; }
+        .deco-2 { color: #1ed658; animation-delay: 0.2s; }
         .deco-3 { color: #34d399; animation-delay: 0.4s; }
         .deco-4 { color: #ffd700; animation-delay: 0.6s; }
 
+        @-webkit-keyframes blink {
+            0% { opacity: 0.8; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
         @keyframes blink {
-            0% { opacity: 0.7; transform: scale(0.9); }
+            0% { opacity: 0.8; transform: scale(0.9); }
             100% { opacity: 1; transform: scale(1.1); }
         }
 
-        /* 新增：装饰元素缓慢旋转 */
+        @-webkit-keyframes decoRotate {
+            0% { transform: rotate(0deg) scale(0.9); }
+            100% { transform: rotate(10deg) scale(1.1); }
+        }
         @keyframes decoRotate {
             0% { transform: rotate(0deg) scale(0.9); }
             100% { transform: rotate(10deg) scale(1.1); }
         }
 
-        /* 树干（保留闪动+同步摇摆） */
+        /* 树干 */
         .trunk {
-            color: #0a4d1e;
+            color: #148032;
             font-weight: bold;
-            text-shadow: none;
+            text-shadow: 0 0 0.3vw rgba(255, 255, 255, 0.4);
             margin-top: 1vw;
             font-size: 2.5vw;
             line-height: 1.2;
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
+            -webkit-animation: 
+                textFlicker 2.5s ease-in-out infinite alternate,
+                treeSway 6s ease-in-out infinite;
             animation: 
                 textFlicker 2.5s ease-in-out infinite alternate,
-                treeSway 6s ease-in-out infinite; /* 同步摇摆 */
+                treeSway 6s ease-in-out infinite;
         }
 
-        /* 底部祝福语（保留闪动） */
+        /* 底部祝福语 */
         .footer-text {
             margin-top: 2vw;
-            color: #148032;
+            color: #19a347;
             font-size: 2vw;
-            text-shadow: none;
+            text-shadow: 0 0 0.3vw rgba(255, 255, 255, 0.4);
+            will-change: transform, opacity;
+            transform: translate3d(0, 0, 0);
+            -webkit-animation: textFlicker 3s ease-in-out infinite alternate;
             animation: textFlicker 3s ease-in-out infinite alternate;
         }
 
-        /* 雪花特效（新增左右飘摆+保留下落） */
+        /* 雪花（适配iOS+响应式） */
         .snowflake {
             position: absolute;
-            color: #666;
-            opacity: 0.8;
-            animation: 
-                snowfall 8s linear infinite,
-                snowSway 4s ease-in-out infinite alternate; /* 新增左右飘摆 */
+            color: #999;
+            opacity: 0.9;
             font-size: 1.5vw;
             z-index: 1;
             top: -5vw;
             left: 0;
+            will-change: transform, opacity;
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-animation: 
+                snowfall 8s linear infinite,
+                snowSway 4s ease-in-out infinite alternate;
+            animation: 
+                snowfall 8s linear infinite,
+                snowSway 4s ease-in-out infinite alternate;
         }
 
-        /* 雪花下落（保留） */
+        @-webkit-keyframes snowfall {
+            from {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            to {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
         @keyframes snowfall {
             from {
                 transform: translateY(0) rotate(0deg);
@@ -176,18 +252,28 @@
             }
         }
 
-        /* 新增：雪花左右飘摆 */
+        @-webkit-keyframes snowSway {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(2vw); }
+        }
         @keyframes snowSway {
             0% { transform: translateX(0); }
             100% { transform: translateX(2vw); }
         }
 
-        /* 手机端适配（同步调整动画） */
+        /* 响应式适配：平板 */
         @media (max-width: 768px) {
             #treeContainer {
                 font-size: 3.8vw;
                 line-height: 1.3;
                 letter-spacing: 0.2vw;
+                text-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5);
+                -webkit-animation: 
+                    textFlicker 2s ease-in-out infinite alternate,
+                    treeSway 7s ease-in-out infinite;
+                animation: 
+                    textFlicker 2s ease-in-out infinite alternate,
+                    treeSway 7s ease-in-out infinite;
             }
             .tree-top {
                 font-size: 6vw;
@@ -196,20 +282,37 @@
             .trunk {
                 font-size: 4.2vw;
                 line-height: 1.3;
+                text-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5);
             }
             .footer-text {
                 font-size: 3.2vw;
+                text-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5);
             }
             .snowflake {
                 font-size: 2vw;
-                animation: snowfall 10s linear infinite, snowSway 5s ease-in-out infinite alternate;
+                color: #aaa;
+                -webkit-animation: 
+                    snowfall 10s linear infinite,
+                    snowSway 5s ease-in-out infinite alternate;
+                animation: 
+                    snowfall 10s linear infinite,
+                    snowSway 5s ease-in-out infinite alternate;
             }
         }
+
+        /* 响应式适配：手机 */
         @media (max-width: 480px) {
             #treeContainer {
                 font-size: 4.8vw;
                 line-height: 1.4;
                 letter-spacing: 0.3vw;
+                text-shadow: 0 0 0.6vw rgba(255, 255, 255, 0.6);
+                -webkit-animation: 
+                    textFlicker 2s ease-in-out infinite alternate,
+                    treeSway 8s ease-in-out infinite;
+                animation: 
+                    textFlicker 2s ease-in-out infinite alternate,
+                    treeSway 8s ease-in-out infinite;
             }
             .tree-top {
                 font-size: 7.5vw;
@@ -218,13 +321,21 @@
             .trunk {
                 font-size: 5.2vw;
                 line-height: 1.4;
+                text-shadow: 0 0 0.6vw rgba(255, 255, 255, 0.6);
             }
             .footer-text {
                 font-size: 4.2vw;
+                text-shadow: 0 0 0.6vw rgba(255, 255, 255, 0.6);
             }
             .snowflake {
                 font-size: 2.5vw;
-                animation: snowfall 12s linear infinite, snowSway 6s ease-in-out infinite alternate;
+                color: #bbb;
+                -webkit-animation: 
+                    snowfall 12s linear infinite,
+                    snowSway 6s ease-in-out infinite alternate;
+                animation: 
+                    snowfall 12s linear infinite,
+                    snowSway 6s ease-in-out infinite alternate;
             }
         }
     </style>
@@ -239,9 +350,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderChristmasTree();
             createSnowflakes();
+            optimizeAnimationForLowEndDevice();
         });
 
-        // 生成圣诞树（保留原有）
+        // 生成圣诞树
         function renderChristmasTree() {
             const treeContainer = document.getElementById('treeContainer');
             const trunkContainer = document.getElementById('trunkContainer');
@@ -274,18 +386,41 @@
                 trunkSpaces + 'v我50';
         }
 
-        // 生成雪花（保留原有，动画在CSS中修改）
+        // 动态雪花数量（适配屏幕/性能）
         function createSnowflakes() {
-            const snowCount = 40;
+            let snowCount = 40;
+            // 小屏减少雪花
+            if (window.innerWidth < 768) snowCount = 25;
+            if (window.innerWidth < 480) snowCount = 15;
+            // 低端机再减少
+            if ('performance' in window) {
+                const perf = performance.memory;
+                if (perf && perf.usedJSHeapSize > perf.totalJSHeapSize * 0.8) {
+                    snowCount = 10;
+                }
+            }
             const body = document.body;
             for (let i = 0; i < snowCount; i++) {
                 const snowflake = document.createElement('div');
                 snowflake.className = 'snowflake';
                 snowflake.textContent = '❄️';
                 snowflake.style.left = `${Math.random() * 100}vw`;
-                snowflake.style.animationDuration = `${8 + Math.random() * 8}s`; // 适配新动画时长
+                snowflake.style.animationDuration = `${8 + Math.random() * 8}s`;
                 snowflake.style.animationDelay = `${Math.random() * 5}s`;
                 body.appendChild(snowflake);
+            }
+        }
+
+        // 低端机优化动画
+        function optimizeAnimationForLowEndDevice() {
+            const isLowEnd = window.innerWidth < 480 && window.devicePixelRatio < 2;
+            if (isLowEnd) {
+                document.body.style.animation = 'none'; // 关闭背景呼吸
+                const decos = document.querySelectorAll('.deco');
+                decos.forEach(deco => {
+                    deco.style.webkitAnimation = 'blink 1.2s ease-in-out infinite alternate';
+                    deco.style.animation = 'blink 1.2s ease-in-out infinite alternate';
+                });
             }
         }
     </script>
