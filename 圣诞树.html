@@ -2,10 +2,9 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>v我50圣诞树</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
   
   <script>
     tailwind.config = {
@@ -28,7 +27,7 @@
   <style type="text/tailwindcss">
     @layer utilities {
       .text-shadow-glow {
-        text-shadow: 0 0 8px rgba(251, 191, 36, 0.8);
+        text-shadow: 0 0 6px rgba(251, 191, 36, 0.8);
       }
       .snowflake {
         position: absolute;
@@ -44,15 +43,15 @@
         to { transform: translateY(100vh) rotate(360deg); }
       }
       @keyframes pulse {
-        from { opacity: 0.7; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1.05); }
+        from { opacity: 0.7; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1.1); }
       }
       .ornament-sway {
         animation: sway 3s ease-in-out infinite alternate;
       }
       @keyframes sway {
-        from { transform: rotate(-3deg); }
-        to { transform: rotate(3deg); }
+        from { transform: rotate(-2deg); }
+        to { transform: rotate(2deg); }
       }
     }
   </style>
@@ -62,103 +61,114 @@
   <!-- 雪花容器 -->
   <div id="snow-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10"></div>
   
-  <!-- 圣诞树主体（居中容器控制最大宽度） -->
-  <main class="relative z-20 flex justify-center items-center min-h-screen p-4">
-    <div class="christmas-tree relative w-full max-w-2xl mx-auto">
-      <!-- 树顶星星 -->
-      <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 z-30">
-        <i class="fa fa-star text-3xl text-christmas-gold text-shadow-glow star-pulse"></i>
+  <!-- 圣诞树主体（响应式容器） -->
+  <main class="relative z-20 flex justify-center items-center min-h-screen p-2">
+    <div class="christmas-tree relative w-full max-w-3xl">
+      <!-- 树顶星星（动态尺寸） -->
+      <div class="absolute -top-[5vw] left-1/2 transform -translate-x-1/2 z-30">
+        <span class="text-christmas-gold text-[6vw] text-shadow-glow star-pulse">★</span>
       </div>
       
-      <!-- 树干（下移60px，加宽间距，避免叠加） -->
-      <div class="absolute bottom-[-60px] left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center gap-2 w-14">
-        <span class="text-christmas-brown text-base font-bold">v我50</span>
-        <span class="text-christmas-brown text-base font-bold">v我50</span>
-        <span class="text-christmas-brown text-base font-bold">v我50</span>
+      <!-- 树干（响应式定位，避免重叠） -->
+      <div class="absolute bottom-[-8vw] left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center gap-[1vw] w-[12vw] max-w-[60px]">
+        <span class="text-christmas-brown text-[3vw] font-bold">v我50</span>
+        <span class="text-christmas-brown text-[3vw] font-bold">v我50</span>
+        <span class="text-christmas-brown text-[3vw] font-bold">v我50</span>
       </div>
       
-      <!-- 伞形圣诞树（严格控制每层宽度递增，手机端保持伞形） -->
-      <div class="tree-layer relative">
+      <!-- 伞形圣诞树（严格层级递增，文字密集） -->
+      <div class="tree-layer relative pt-[8vw] pb-[10vw]">
         <!-- 第1层（顶层，最窄） -->
-        <div class="flex justify-center my-1">
-          <span class="text-christmas-green text-sm mx-1">v我50</span>
+        <div class="flex justify-center my-[0.5vw]">
+          <span class="text-christmas-green text-[3vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[3vw] mx-[0.5vw]">v我50</span>
         </div>
         
-        <!-- 第2层（宽度=第1层+2个文字） -->
-        <div class="flex justify-center my-1">
-          <span class="text-christmas-green text-sm mx-1">v我50</span>
-          <span class="text-christmas-gold text-sm mx-1 ornament-sway">v我50</span>
-          <span class="text-christmas-green text-sm mx-1">v我50</span>
+        <!-- 第2层（宽度+2） -->
+        <div class="flex justify-center my-[0.5vw]">
+          <span class="text-christmas-green text-[3vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-gold text-[3vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-green text-[3vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-gold text-[3vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-green text-[3vw] mx-[0.5vw]">v我50</span>
         </div>
         
-        <!-- 第3层（宽度=第2层+2个文字） -->
-        <div class="flex justify-center my-1">
-          <span class="text-christmas-green text-base mx-1">v我50</span>
-          <span class="text-christmas-green text-base mx-1">v我50</span>
-          <span class="text-christmas-red text-base mx-1 ornament-sway">v我50</span>
-          <span class="text-christmas-green text-base mx-1">v我50</span>
-          <span class="text-christmas-green text-base mx-1">v我50</span>
+        <!-- 第3层（宽度+2） -->
+        <div class="flex justify-center my-[0.5vw]">
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-red text-[3.5vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-red text-[3.5vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
         </div>
         
-        <!-- 第4层（宽度=第3层+2个文字） -->
-        <div class="flex justify-center my-1">
-          <span class="text-christmas-green text-base mx-1">v我50</span>
-          <span class="text-christmas-green text-base mx-1">v我50</span>
-          <span class="text-christmas-green text-base mx-1">v我50</span>
-          <span class="text-christmas-gold text-base mx-1 ornament-sway">v我50</span>
-          <span class="text-christmas-green text-base mx-1">v我50</span>
-          <span class="text-christmas-green text-base mx-1">v我50</span>
-          <span class="text-christmas-green text-base mx-1">v我50</span>
+        <!-- 第4层（宽度+2） -->
+        <div class="flex justify-center my-[0.5vw]">
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-gold text-[3.5vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-gold text-[3.5vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[3.5vw] mx-[0.5vw]">v我50</span>
         </div>
         
-        <!-- 第5层（宽度=第4层+2个文字） -->
-        <div class="flex justify-center my-1">
-          <span class="text-christmas-green text-lg mx-1">v我50</span>
-          <span class="text-christmas-green text-lg mx-1">v我50</span>
-          <span class="text-christmas-green text-lg mx-1">v我50</span>
-          <span class="text-christmas-red text-lg mx-1 ornament-sway">v我50</span>
-          <span class="text-christmas-green text-lg mx-1">v我50</span>
-          <span class="text-christmas-green text-lg mx-1">v我50</span>
-          <span class="text-christmas-red text-lg mx-1 ornament-sway">v我50</span>
-          <span class="text-christmas-green text-lg mx-1">v我50</span>
-          <span class="text-christmas-green text-lg mx-1">v我50</span>
+        <!-- 第5层（宽度+2） -->
+        <div class="flex justify-center my-[0.5vw] flex-wrap max-w-[90vw] mx-auto justify-items-center">
+          <span class="text-christmas-green text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-red text-[4vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-green text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-red text-[4vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-green text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-green text-[4vw] mx-[0.5vw]">v我50</span>
         </div>
         
-        <!-- 第6层（宽度=第5层+2个文字，最宽） -->
-        <div class="flex justify-center my-1 flex-wrap max-w-[90vw] mx-auto">
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
-          <span class="text-christmas-gold text-lg mx-1 ornament-sway">v我50</span>
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
-          <span class="text-christmas-red text-lg mx-1 ornament-sway">v我50</span>
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
-          <span class="text-christmas-darkGreen text-lg mx-1">v我50</span>
+        <!-- 第6层（最宽，宽度+2） -->
+        <div class="flex justify-center my-[0.5vw] flex-wrap max-w-[95vw] mx-auto justify-items-center">
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-gold text-[4vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-red text-[4vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
+          <span class="text-christmas-gold text-[4vw] mx-[0.5vw] ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-[4vw] mx-[0.5vw]">v我50</span>
         </div>
       </div>
     </div>
   </main>
   
-  <footer class="relative z-20 text-center text-gray-300 text-xs p-2">
-    <p>圣诞快乐 <i class="fa fa-gift text-christmas-red ml-1"></i></p>
+  <footer class="relative z-20 text-center text-gray-300 text-[2vw] p-2">
+    <p>圣诞快乐 <span class="text-christmas-red">🎁</span> 平安喜乐</p>
   </footer>
 
   <script>
-    // 雪花效果（手机端减少数量，优化性能）
+    // 响应式雪花（根据屏幕尺寸动态调整）
     function createSnowflakes() {
       const snowContainer = document.getElementById('snow-container');
-      const isMobile = window.innerWidth < 640;
-      const snowflakeCount = isMobile ? 40 : 100;
+      const screenWidth = window.innerWidth;
+      const snowCount = screenWidth < 375 ? 30 : screenWidth < 768 ? 50 : 100;
       
       snowContainer.innerHTML = '';
       
-      for (let i = 0; i < snowflakeCount; i++) {
+      for (let i = 0; i < snowCount; i++) {
         const snowflake = document.createElement('div');
-        const size = isMobile ? Math.random() * 6 + 3 : Math.random() * 10 + 5;
+        const size = screenWidth < 768 ? Math.random() * 4 + 2 : Math.random() * 8 + 4;
         const icon = Math.random() > 0.5 ? '❄️' : '❅';
         
         snowflake.innerHTML = icon;
@@ -166,15 +176,15 @@
         snowflake.style.left = `${Math.random() * 100}vw`;
         snowflake.style.top = `-${size}px`;
         snowflake.style.fontSize = `${size}px`;
-        snowflake.style.opacity = Math.random() * 0.7 + 0.3;
-        snowflake.style.animationDelay = `${Math.random() * 8}s`;
-        snowflake.style.animationDuration = `${isMobile ? Math.random() * 10 + 8 : Math.random() * 15 + 10}s`;
+        snowflake.style.opacity = Math.random() * 0.6 + 0.2;
+        snowflake.style.animationDelay = `${Math.random() * 6}s`;
+        snowflake.style.animationDuration = `${screenWidth < 768 ? Math.random() * 8 + 6 : Math.random() * 12 + 8}s`;
         
         snowContainer.appendChild(snowflake);
       }
     }
     
-    // 初始化雪花并监听窗口大小变化
+    // 初始化并监听窗口变化
     createSnowflakes();
     window.addEventListener('resize', createSnowflakes);
   </script>
