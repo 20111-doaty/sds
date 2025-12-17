@@ -28,14 +28,13 @@
             justify-content: center;
             padding: 2vw;
             overflow-x: hidden;
-            /* 低调的星星背景，不抢视觉 */
             background-image: 
                 radial-gradient(circle 0.1vw at 2vw 3vw, #333, transparent),
                 radial-gradient(circle 0.05vw at 4vw 8vw, #333, transparent),
                 radial-gradient(circle 0.1vw at 8vw 12vw, #333, transparent),
                 radial-gradient(circle 0.05vw at 14vw 6vw, #333, transparent);
             background-size: 20vw 20vw;
-            position: relative; /* 雪花定位基准 */
+            position: relative;
         }
 
         /* 顶部星星 */
@@ -58,14 +57,13 @@
             100% { filter: drop-shadow(0 0 2vw #ffd700); }
         }
 
-        /* 圣诞树主体（核心：新增文字闪光+深绿色） */
+        /* 圣诞树主体（文字闪光+深绿色） */
         #treeContainer {
             font-size: 2.2vw;
             line-height: 1.2;
             text-align: center;
             white-space: pre-wrap;
             margin: 1vw 0;
-            /* 深绿色渐变文字 */
             background: linear-gradient(120deg, #0a4d1e, #0f6828, #148032);
             -webkit-background-clip: text;
             background-clip: text;
@@ -74,11 +72,9 @@
             z-index: 5;
             word-break: keep-all;
             letter-spacing: 0.1vw;
-            /* 新增：v我50文字专属闪光动画 */
             animation: textSparkle 1.5s ease-in-out infinite alternate;
         }
 
-        /* 文字闪光关键帧（深绿色光晕） */
         @keyframes textSparkle {
             0% {
                 text-shadow: 0 0 0.5vw rgba(10, 77, 30, 0.7), 0 0 1vw rgba(20, 128, 50, 0.5);
@@ -88,20 +84,21 @@
             }
         }
 
-        /* 装饰字符闪光 */
+        /* 新增装饰：发光星星、圣诞袜、糖棍（大小与文字一致） */
         .deco {
             display: inline-block;
             animation: blink 1.2s ease-in-out infinite alternate;
             filter: drop-shadow(0 0 0.5vw currentColor);
+            font-size: 1em; /* 继承文字大小，不破坏排版 */
         }
-        .deco-1 { color: #ffd700; animation-delay: 0s; }
-        .deco-2 { color: #148032; animation-delay: 0.2s; }
-        .deco-3 { color: #34d399; animation-delay: 0.4s; }
-        .deco-4 { color: #ffd700; animation-delay: 0.6s; }
+        .deco-star { color: #ffd700; animation-delay: 0s; } /* 发光星星-金色 */
+        .deco-sock { color: #ef4444; animation-delay: 0.2s; } /* 圣诞袜-红色 */
+        .deco-candy { color: #a855f7; animation-delay: 0.4s; } /* 糖棍-紫色 */
+        .deco-glow { color: #34d399; animation-delay: 0.6s; } /* 辅助闪光-浅绿 */
 
         @keyframes blink {
-            0% { opacity: 0.7; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1.1); }
+            0% { opacity: 0.7; transform: scale(0.95); } /* 轻微缩放，不突兀 */
+            100% { opacity: 1; transform: scale(1.05); }
         }
 
         /* 树干 */
@@ -112,7 +109,6 @@
             margin-top: 1vw;
             font-size: 2.5vw;
             line-height: 1.2;
-            /* 树干也加轻微闪光 */
             animation: textSparkle 2s ease-in-out infinite alternate;
         }
 
@@ -130,29 +126,28 @@
             100% { opacity: 1; }
         }
 
-        /* 雪花特效（核心修改：从顶部飘落） */
+        /* 雪花特效（顶部飘落） */
         .snowflake {
             position: absolute;
             color: #666;
             opacity: 0.8;
             animation: snowfall linear infinite;
             font-size: 1.5vw;
-            z-index: 1; /* 雪花在文字下方，不遮挡 */
-            top: -5vw; /* 初始位置在页面最顶端外 */
+            z-index: 1;
+            top: -5vw;
             left: 0;
         }
 
-        /* 雪花飘落动画（从顶部到页面底部） */
         @keyframes snowfall {
             from {
-                transform: translateY(0) rotate(0deg); /* 从顶部开始下落 */
+                transform: translateY(0) rotate(0deg);
                 opacity: 0;
             }
             10% {
-                opacity: 1; /* 刚进入页面就显示 */
+                opacity: 1;
             }
             to {
-                transform: translateY(105vh) rotate(360deg); /* 落到页面底部外 */
+                transform: translateY(105vh) rotate(360deg);
                 opacity: 0;
             }
         }
@@ -214,26 +209,34 @@
             createSnowflakes();
         });
 
-        // 生成圣诞树
+        // 生成圣诞树（新增装饰，不影响排版）
         function renderChristmasTree() {
             const treeContainer = document.getElementById('treeContainer');
             const trunkContainer = document.getElementById('trunkContainer');
             const treeHeight = 16;
+            // 新增装饰：发光星星、圣诞袜、糖棍，与文字大小一致
             const decorations = [
-                '<span class="deco deco-1">✨</span>',
-                '<span class="deco deco-2">🎀</span>',
-                '<span class="deco deco-3">❄️</span>',
-                '<span class="deco deco-4">🌟</span>'
+                '<span class="deco deco-star">🌟</span>',
+                '<span class="deco deco-sock">🧦</span>',
+                '<span class="deco deco-candy">🍭</span>',
+                '<span class="deco deco-glow">✨</span>'
             ];
             
             let treeHtml = '';
             for (let i = 0; i < treeHeight; i++) {
                 const spaces = '&nbsp;'.repeat(Math.max(treeHeight - i - 1, 0));
                 let rowText = ('v我50').repeat(i + 1);
+                // 每2行插入1个装饰，位置在中间，避免拥挤
                 if (i % 2 === 1 && i < 14) {
                     const randomDeco = decorations[Math.floor(Math.random() * decorations.length)];
                     const insertPos = Math.floor(rowText.length / 2);
                     rowText = rowText.slice(0, insertPos) + randomDeco + rowText.slice(insertPos);
+                }
+                // 第5、10行额外加1个小装饰（增加丰富度，不破坏排版）
+                if ((i === 5 || i === 10) && rowText.length > 4) {
+                    const randomDeco = decorations[Math.floor(Math.random() * decorations.length)];
+                    const insertPos2 = Math.floor(rowText.length / 4);
+                    rowText = rowText.slice(0, insertPos2) + randomDeco + rowText.slice(insertPos2);
                 }
                 treeHtml += spaces + rowText + '<br>';
             }
@@ -247,7 +250,7 @@
                 trunkSpaces + 'v我50';
         }
 
-        // 生成雪花（从顶部飘落）
+        // 生成雪花
         function createSnowflakes() {
             const snowCount = 40;
             const body = document.body;
@@ -255,11 +258,8 @@
                 const snowflake = document.createElement('div');
                 snowflake.className = 'snowflake';
                 snowflake.textContent = '❄️';
-                // 随机水平位置
                 snowflake.style.left = `${Math.random() * 100}vw`;
-                // 随机飘落时长（3-15秒）
                 snowflake.style.animationDuration = `${3 + Math.random() * 12}s`;
-                // 随机延迟，避免雪花同时下落
                 snowflake.style.animationDelay = `${Math.random() * 5}s`;
                 body.appendChild(snowflake);
             }
