@@ -173,14 +173,15 @@
             100% { transform: rotate(10deg) scale(1.1); }
         }
 
-        /* 树干 */
+        /* 树干（核心修复：调整空格计算+强化显示） */
         .trunk {
             color: #148032;
             font-weight: bold;
-            text-shadow: 0 0 0.3vw rgba(255, 255, 255, 0.4);
+            text-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.6);
             margin-top: 1vw;
             font-size: 2.5vw;
-            line-height: 1.2;
+            line-height: 1.4; /* 增加行高，避免重叠 */
+            text-align: center; /* 强制居中 */
             will-change: transform, opacity;
             transform: translate3d(0, 0, 0);
             -webkit-animation: 
@@ -281,8 +282,8 @@
             }
             .trunk {
                 font-size: 4.2vw;
-                line-height: 1.3;
-                text-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5);
+                line-height: 1.5;
+                text-shadow: 0 0 0.6vw rgba(255, 255, 255, 0.7);
             }
             .footer-text {
                 font-size: 3.2vw;
@@ -320,8 +321,8 @@
             }
             .trunk {
                 font-size: 5.2vw;
-                line-height: 1.4;
-                text-shadow: 0 0 0.6vw rgba(255, 255, 255, 0.6);
+                line-height: 1.6;
+                text-shadow: 0 0 0.7vw rgba(255, 255, 255, 0.8);
             }
             .footer-text {
                 font-size: 4.2vw;
@@ -353,7 +354,7 @@
             optimizeAnimationForLowEndDevice();
         });
 
-        // 生成圣诞树
+        // 生成圣诞树（修复树干渲染逻辑）
         function renderChristmasTree() {
             const treeContainer = document.getElementById('treeContainer');
             const trunkContainer = document.getElementById('trunkContainer');
@@ -365,6 +366,7 @@
                 '<span class="deco deco-4">🌟</span>'
             ];
             
+            // 生成树体
             let treeHtml = '';
             for (let i = 0; i < treeHeight; i++) {
                 const spaces = '&nbsp;'.repeat(Math.max(treeHeight - i - 1, 0));
@@ -378,7 +380,12 @@
             }
             treeContainer.innerHTML = treeHtml;
 
-            const trunkSpaces = '&nbsp;'.repeat(Math.max(treeHeight - 1, 0));
+            // 修复树干：重新计算空格（基于树体最宽行，确保居中）
+            const maxTreeWidth = treeHeight; // 树体最宽行的"v我50"数量
+            const trunkTextCount = 1; // 树干每行只显示1个"v我50"，更贴合真实树干
+            const trunkSpaces = '&nbsp;'.repeat(Math.max(maxTreeWidth - trunkTextCount, 0));
+            
+            // 树干内容（4行，居中显示）
             trunkContainer.innerHTML = 
                 trunkSpaces + 'v我50<br>' + 
                 trunkSpaces + 'v我50<br>' + 
