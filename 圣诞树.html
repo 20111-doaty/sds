@@ -1,377 +1,151 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta property="og:title" content="v我50 全设备适配圣诞树🎄">
-    <meta property="og:description" content="流畅适配手机/平板/电脑的动态圣诞树">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://picsum.photos/600/400?christmas">
+    <meta property="og:title" content="v我50 手机适配圣诞树🎄">
+    <meta property="og:description" content="手机端紧凑显示的动态圣诞树">
     <meta property="og:url" content="https://20111-doaty.github.io/sds/圣诞树.html">
     
     <meta charset="UTF-8">
+    <!-- 手机端视口强制适配 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>v我50 全设备适配圣诞树🎄</title>
+    <title>v我50 手机适配圣诞树🎄</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            touch-action: pan-none; /* 禁止触摸干扰 */
-            overflow: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: "Microsoft YaHei", sans-serif;
-            background: linear-gradient(135deg, #000, #051a09);
-            animation: bgBreath 8s ease-in-out infinite alternate;
             min-height: 100vh;
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #000;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2vw;
-            position: relative;
+            padding: 10px; /* 手机端少量留白 */
+            overflow: hidden; /* 避免滚动干扰 */
         }
 
-        /* 兼容性前缀：背景呼吸 */
-        @-webkit-keyframes bgBreath {
-            0% { background: linear-gradient(135deg, #000, #051a09); }
-            100% { background: linear-gradient(135deg, #000, #0a2e12); }
-        }
-        @keyframes bgBreath {
-            0% { background: linear-gradient(135deg, #000, #051a09); }
-            100% { background: linear-gradient(135deg, #000, #0a2e12); }
-        }
-
-        /* 顶部星星（硬件加速+兼容前缀） */
+        /* 顶部星星（手机端缩小） */
         .tree-top {
-            font-size: 4vw;
+            font-size: 8vw; /* 手机端按屏幕宽度适配 */
             color: #ffd700;
-            margin-bottom: -1.5vw;
-            will-change: transform, opacity;
-            transform: translate3d(0, 0, 0);
-            -webkit-animation: 
-                rotateStar 5s linear infinite, 
-                starGlow 2s ease-in-out infinite alternate,
-                starBreath 3s ease-in-out infinite alternate;
-            animation: 
-                rotateStar 5s linear infinite, 
-                starGlow 2s ease-in-out infinite alternate,
-                starBreath 3s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 1vw #ffd700);
-            z-index: 10;
+            text-shadow: 0 0 5px #ffd700;
+            margin-bottom: 5px;
+            animation: starRotate 5s linear infinite, starBreath 3s alternate infinite;
         }
+        @keyframes starRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes starBreath { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
 
-        @-webkit-keyframes rotateStar {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes rotateStar {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @-webkit-keyframes starGlow {
-            0% { filter: drop-shadow(0 0 1vw #ffd700); }
-            100% { filter: drop-shadow(0 0 2vw #ffd700); }
-        }
-        @keyframes starGlow {
-            0% { filter: drop-shadow(0 0 1vw #ffd700); }
-            100% { filter: drop-shadow(0 0 2vw #ffd700); }
-        }
-
-        @-webkit-keyframes starBreath {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
-        @keyframes starBreath {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
-
-        /* 圣诞树主体（响应式+硬件加速+兼容前缀） */
+        /* 树体：强制限制宽度+手机端紧凑布局 */
         #treeContainer {
-            font-size: 2.2vw;
-            line-height: 1.2;
+            font-size: 4.5vw; /* 手机端字体适中 */
+            line-height: 1.4; /* 增加行高避免挤在一起 */
             text-align: center;
-            white-space: pre-wrap;
-            margin: 1vw 0;
-            background: linear-gradient(120deg, #148032, #19a347, #1ed658);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            will-change: transform, opacity;
-            transform: translate3d(0, 0, 0);
-            word-break: keep-all;
-            letter-spacing: 0.1vw;
-            text-shadow: 0 0 0.3vw rgba(255, 255, 255, 0.4);
-            -webkit-animation: 
-                textFlicker 2s ease-in-out infinite alternate,
-                treeSway 6s ease-in-out infinite;
-            animation: 
-                textFlicker 2s ease-in-out infinite alternate,
-                treeSway 6s ease-in-out infinite;
+            color: #1ed658;
+            text-shadow: 0 0 2px rgba(255,255,255,0.8);
+            max-width: 100%; /* 不超出手机屏幕 */
+            overflow-wrap: break-word;
+            animation: treeSway 6s alternate infinite, textFlicker 2s alternate infinite;
+            margin-bottom: 10px;
         }
-
-        @-webkit-keyframes textFlicker {
-            0% { opacity: 0.8; }
-            100% { opacity: 1; }
+        @keyframes treeSway {
+            0%,100% { transform: rotate(0deg); }
+            50% { transform: rotate(0.5deg); }
         }
         @keyframes textFlicker {
             0% { opacity: 0.8; }
             100% { opacity: 1; }
         }
 
-        @-webkit-keyframes treeSway {
-            0%, 100% { transform: rotate(0deg) translateX(0); }
-            25% { transform: rotate(0.5deg) translateX(0.5vw); }
-            75% { transform: rotate(-0.5deg) translateX(-0.5vw); }
-        }
-        @keyframes treeSway {
-            0%, 100% { transform: rotate(0deg) translateX(0); }
-            25% { transform: rotate(0.5deg) translateX(0.5vw); }
-            75% { transform: rotate(-0.5deg) translateX(-0.5vw); }
-        }
-
-        /* 装饰字符 */
+        /* 装饰元素（手机端缩小） */
         .deco {
             display: inline-block;
-            will-change: transform, opacity;
-            transform: translate3d(0, 0, 0);
-            -webkit-animation: 
-                blink 1.2s ease-in-out infinite alternate,
-                decoRotate 4s ease-in-out infinite alternate;
-            animation: 
-                blink 1.2s ease-in-out infinite alternate,
-                decoRotate 4s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 0.5vw currentColor);
+            font-size: 1em;
+            animation: decoBlink 1.2s alternate infinite;
+            text-shadow: 0 0 3px currentColor;
         }
-        .deco-1 { color: #ffd700; animation-delay: 0s; }
-        .deco-2 { color: #1ed658; animation-delay: 0.2s; }
-        .deco-3 { color: #34d399; animation-delay: 0.4s; }
-        .deco-4 { color: #ffd700; animation-delay: 0.6s; }
-
-        @-webkit-keyframes blink {
-            0% { opacity: 0.8; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1.1); }
-        }
-        @keyframes blink {
-            0% { opacity: 0.8; transform: scale(0.9); }
+        .deco-1 { color: #ffd700; }
+        .deco-2 { color: #1ed658; }
+        .deco-3 { color: #34d399; }
+        .deco-4 { color: #ffd700; }
+        @keyframes decoBlink {
+            0% { opacity: 0.7; transform: scale(0.9); }
             100% { opacity: 1; transform: scale(1.1); }
         }
 
-        @-webkit-keyframes decoRotate {
-            0% { transform: rotate(0deg) scale(0.9); }
-            100% { transform: rotate(10deg) scale(1.1); }
-        }
-        @keyframes decoRotate {
-            0% { transform: rotate(0deg) scale(0.9); }
-            100% { transform: rotate(10deg) scale(1.1); }
-        }
-
-        /* 树干（核心修复：调整空格计算+强化显示） */
+        /* 树干：手机端紧凑显示 */
         .trunk {
+            font-size: 5vw;
             color: #148032;
             font-weight: bold;
-            text-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.6);
-            margin-top: 1vw;
-            font-size: 2.5vw;
-            line-height: 1.4; /* 增加行高，避免重叠 */
-            text-align: center; /* 强制居中 */
-            will-change: transform, opacity;
-            transform: translate3d(0, 0, 0);
-            -webkit-animation: 
-                textFlicker 2.5s ease-in-out infinite alternate,
-                treeSway 6s ease-in-out infinite;
-            animation: 
-                textFlicker 2.5s ease-in-out infinite alternate,
-                treeSway 6s ease-in-out infinite;
+            text-align: center;
+            text-shadow: 0 0 3px rgba(255,255,255,0.8);
+            line-height: 1.3;
+            animation: textFlicker 2.5s alternate infinite, treeSway 6s alternate infinite;
         }
 
-        /* 底部祝福语 */
+        /* 祝福语（手机端适配） */
         .footer-text {
-            margin-top: 2vw;
+            margin-top: 10px;
             color: #19a347;
-            font-size: 2vw;
-            text-shadow: 0 0 0.3vw rgba(255, 255, 255, 0.4);
-            will-change: transform, opacity;
-            transform: translate3d(0, 0, 0);
-            -webkit-animation: textFlicker 3s ease-in-out infinite alternate;
-            animation: textFlicker 3s ease-in-out infinite alternate;
+            font-size: 4vw;
+            text-shadow: 0 0 2px rgba(255,255,255,0.6);
+            animation: textFlicker 3s alternate infinite;
         }
 
-        /* 雪花（适配iOS+响应式） */
+        /* 雪花（手机端简化） */
         .snowflake {
             position: absolute;
             color: #999;
-            opacity: 0.9;
-            font-size: 1.5vw;
+            font-size: 3vw;
+            top: -20px;
+            animation: snowfall 10s linear infinite, snowSway 3s alternate infinite;
             z-index: 1;
-            top: -5vw;
-            left: 0;
-            will-change: transform, opacity;
-            -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            -webkit-animation: 
-                snowfall 8s linear infinite,
-                snowSway 4s ease-in-out infinite alternate;
-            animation: 
-                snowfall 8s linear infinite,
-                snowSway 4s ease-in-out infinite alternate;
-        }
-
-        @-webkit-keyframes snowfall {
-            from {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            to {
-                transform: translateY(105vh) rotate(360deg);
-                opacity: 0;
-            }
         }
         @keyframes snowfall {
-            from {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            to {
-                transform: translateY(105vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        @-webkit-keyframes snowSway {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(2vw); }
+            to { transform: translateY(100vh) rotate(360deg); }
         }
         @keyframes snowSway {
             0% { transform: translateX(0); }
-            100% { transform: translateX(2vw); }
-        }
-
-        /* 响应式适配：平板 */
-        @media (max-width: 768px) {
-            #treeContainer {
-                font-size: 3.8vw;
-                line-height: 1.3;
-                letter-spacing: 0.2vw;
-                text-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5);
-                -webkit-animation: 
-                    textFlicker 2s ease-in-out infinite alternate,
-                    treeSway 7s ease-in-out infinite;
-                animation: 
-                    textFlicker 2s ease-in-out infinite alternate,
-                    treeSway 7s ease-in-out infinite;
-            }
-            .tree-top {
-                font-size: 6vw;
-                margin-bottom: -2.5vw;
-            }
-            .trunk {
-                font-size: 4.2vw;
-                line-height: 1.5;
-                text-shadow: 0 0 0.6vw rgba(255, 255, 255, 0.7);
-            }
-            .footer-text {
-                font-size: 3.2vw;
-                text-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5);
-            }
-            .snowflake {
-                font-size: 2vw;
-                color: #aaa;
-                -webkit-animation: 
-                    snowfall 10s linear infinite,
-                    snowSway 5s ease-in-out infinite alternate;
-                animation: 
-                    snowfall 10s linear infinite,
-                    snowSway 5s ease-in-out infinite alternate;
-            }
-        }
-
-        /* 响应式适配：手机 */
-        @media (max-width: 480px) {
-            #treeContainer {
-                font-size: 4.8vw;
-                line-height: 1.4;
-                letter-spacing: 0.3vw;
-                text-shadow: 0 0 0.6vw rgba(255, 255, 255, 0.6);
-                -webkit-animation: 
-                    textFlicker 2s ease-in-out infinite alternate,
-                    treeSway 8s ease-in-out infinite;
-                animation: 
-                    textFlicker 2s ease-in-out infinite alternate,
-                    treeSway 8s ease-in-out infinite;
-            }
-            .tree-top {
-                font-size: 7.5vw;
-                margin-bottom: -3vw;
-            }
-            .trunk {
-                font-size: 5.2vw;
-                line-height: 1.6;
-                text-shadow: 0 0 0.7vw rgba(255, 255, 255, 0.8);
-            }
-            .footer-text {
-                font-size: 4.2vw;
-                text-shadow: 0 0 0.6vw rgba(255, 255, 255, 0.6);
-            }
-            .snowflake {
-                font-size: 2.5vw;
-                color: #bbb;
-                -webkit-animation: 
-                    snowfall 12s linear infinite,
-                    snowSway 6s ease-in-out infinite alternate;
-                animation: 
-                    snowfall 12s linear infinite,
-                    snowSway 6s ease-in-out infinite alternate;
-            }
+            100% { transform: translateX(10px); }
         }
     </style>
 </head>
 <body>
     <div class="tree-top">★</div>
     <div id="treeContainer"></div>
-    <div class="trunk" id="trunkContainer"></div>
+    <div class="trunk">
+        v我50<br>
+        v我50<br>
+        v我50
+    </div>
     <div class="footer-text">v我50，圣诞快乐🎅</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            renderChristmasTree();
+            renderPhoneTree(); // 手机端专属树形
             createSnowflakes();
-            optimizeAnimationForLowEndDevice();
         });
 
-        // 生成圣诞树（修复树干渲染逻辑）
-        function renderChristmasTree() {
+        // 手机端树形：高度压缩+每行数量减少（避免太宽）
+        function renderPhoneTree() {
             const treeContainer = document.getElementById('treeContainer');
-            const trunkContainer = document.getElementById('trunkContainer');
-            const treeHeight = 16;
+            const treeHeight = 10; // 压缩到10行（原16行）
+            const maxPerRow = 4; // 每行最多4个“v我50”（原随高度增加）
             const decorations = [
                 '<span class="deco deco-1">✨</span>',
                 '<span class="deco deco-2">🎀</span>',
-                '<span class="deco deco-3">❄️</span>',
-                '<span class="deco deco-4">🌟</span>'
+                '<span class="deco deco-3">❄️</span>'
             ];
             
-            // 生成树体
             let treeHtml = '';
             for (let i = 0; i < treeHeight; i++) {
-                const spaces = '&nbsp;'.repeat(Math.max(treeHeight - i - 1, 0));
-                let rowText = ('v我50').repeat(i + 1);
-                if (i % 2 === 1 && i < 14) {
+                // 每行数量：从1到4，之后保持4个（避免太宽）
+                const count = Math.min(i + 1, maxPerRow);
+                // 居中空格：按手机屏幕宽度计算
+                const spaces = '&nbsp;'.repeat(Math.max(maxPerRow - count, 0) * 2);
+                let rowText = ('v我50').repeat(count);
+                
+                // 每3行插1个装饰（避免拥挤）
+                if (i % 3 === 1) {
                     const randomDeco = decorations[Math.floor(Math.random() * decorations.length)];
                     const insertPos = Math.floor(rowText.length / 2);
                     rowText = rowText.slice(0, insertPos) + randomDeco + rowText.slice(insertPos);
@@ -379,55 +153,19 @@
                 treeHtml += spaces + rowText + '<br>';
             }
             treeContainer.innerHTML = treeHtml;
-
-            // 修复树干：重新计算空格（基于树体最宽行，确保居中）
-            const maxTreeWidth = treeHeight; // 树体最宽行的"v我50"数量
-            const trunkTextCount = 1; // 树干每行只显示1个"v我50"，更贴合真实树干
-            const trunkSpaces = '&nbsp;'.repeat(Math.max(maxTreeWidth - trunkTextCount, 0));
-            
-            // 树干内容（4行，居中显示）
-            trunkContainer.innerHTML = 
-                trunkSpaces + 'v我50<br>' + 
-                trunkSpaces + 'v我50<br>' + 
-                trunkSpaces + 'v我50<br>' +
-                trunkSpaces + 'v我50';
         }
 
-        // 动态雪花数量（适配屏幕/性能）
+        // 手机端雪花数量减少
         function createSnowflakes() {
-            let snowCount = 40;
-            // 小屏减少雪花
-            if (window.innerWidth < 768) snowCount = 25;
-            if (window.innerWidth < 480) snowCount = 15;
-            // 低端机再减少
-            if ('performance' in window) {
-                const perf = performance.memory;
-                if (perf && perf.usedJSHeapSize > perf.totalJSHeapSize * 0.8) {
-                    snowCount = 10;
-                }
-            }
+            const snowCount = 15;
             const body = document.body;
             for (let i = 0; i < snowCount; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                snowflake.textContent = '❄️';
-                snowflake.style.left = `${Math.random() * 100}vw`;
-                snowflake.style.animationDuration = `${8 + Math.random() * 8}s`;
-                snowflake.style.animationDelay = `${Math.random() * 5}s`;
-                body.appendChild(snowflake);
-            }
-        }
-
-        // 低端机优化动画
-        function optimizeAnimationForLowEndDevice() {
-            const isLowEnd = window.innerWidth < 480 && window.devicePixelRatio < 2;
-            if (isLowEnd) {
-                document.body.style.animation = 'none'; // 关闭背景呼吸
-                const decos = document.querySelectorAll('.deco');
-                decos.forEach(deco => {
-                    deco.style.webkitAnimation = 'blink 1.2s ease-in-out infinite alternate';
-                    deco.style.animation = 'blink 1.2s ease-in-out infinite alternate';
-                });
+                const snow = document.createElement('div');
+                snow.className = 'snowflake';
+                snow.textContent = '❄️';
+                snow.style.left = `${Math.random() * 100}vw`;
+                snow.style.animationDuration = `${8 + Math.random() * 5}s`;
+                body.appendChild(snow);
             }
         }
     </script>
