@@ -1,173 +1,227 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta property="og:title" content="v我50 手机适配圣诞树🎄">
-    <meta property="og:description" content="手机端紧凑显示的动态圣诞树">
-    <meta property="og:url" content="https://20111-doaty.github.io/sds/圣诞树.html">
-    
-    <meta charset="UTF-8">
-    <!-- 手机端视口强制适配 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>v我50 手机适配圣诞树🎄</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            min-height: 100vh;
-            font-family: "Microsoft YaHei", sans-serif;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 10px; /* 手机端少量留白 */
-            overflow: hidden; /* 避免滚动干扰 */
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>圣诞树</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            christmas: {
+              green: '#16A34A',
+              darkGreen: '#059669',
+              red: '#DC2626',
+              gold: '#FBBF24',
+              brown: '#B45309'
+            }
+          }
         }
-
-        /* 顶部星星（手机端缩小） */
-        .tree-top {
-            font-size: 8vw; /* 手机端按屏幕宽度适配 */
-            color: #ffd700;
-            text-shadow: 0 0 5px #ffd700;
-            margin-bottom: 5px;
-            animation: starRotate 5s linear infinite, starBreath 3s alternate infinite;
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-shadow-glow {
+        text-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+      }
+      .snowflake {
+        position: absolute;
+        color: white;
+        user-select: none;
+        pointer-events: none;
+        animation: fall linear infinite;
+      }
+      .star-pulse {
+        animation: pulse 2s infinite alternate;
+      }
+      @keyframes fall {
+        to { transform: translateY(100vh) rotate(360deg); }
+      }
+      @keyframes pulse {
+        from { opacity: 0.7; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1.05); }
+      }
+      .ornament-sway {
+        animation: sway 3s ease-in-out infinite alternate;
+      }
+      @keyframes sway {
+        from { transform: rotate(-5deg); }
+        to { transform: rotate(5deg); }
+      }
+      /* 响应式调整文字大小和间距 */
+      @media (max-width: 640px) {
+        .tree-text {
+          font-size: 0.7rem !important;
+          margin: 0 1px !important;
         }
-        @keyframes starRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes starBreath { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
-
-        /* 树体：强制限制宽度+手机端紧凑布局 */
-        #treeContainer {
-            font-size: 4.5vw; /* 手机端字体适中 */
-            line-height: 1.4; /* 增加行高避免挤在一起 */
-            text-align: center;
-            color: #1ed658;
-            text-shadow: 0 0 2px rgba(255,255,255,0.8);
-            max-width: 100%; /* 不超出手机屏幕 */
-            overflow-wrap: break-word;
-            animation: treeSway 6s alternate infinite, textFlicker 2s alternate infinite;
-            margin-bottom: 10px;
+        .tree-text-lg {
+          font-size: 0.9rem !important;
+          margin: 0 1px !important;
         }
-        @keyframes treeSway {
-            0%,100% { transform: rotate(0deg); }
-            50% { transform: rotate(0.5deg); }
-        }
-        @keyframes textFlicker {
-            0% { opacity: 0.8; }
-            100% { opacity: 1; }
-        }
-
-        /* 装饰元素（手机端缩小） */
-        .deco {
-            display: inline-block;
-            font-size: 1em;
-            animation: decoBlink 1.2s alternate infinite;
-            text-shadow: 0 0 3px currentColor;
-        }
-        .deco-1 { color: #ffd700; }
-        .deco-2 { color: #1ed658; }
-        .deco-3 { color: #34d399; }
-        .deco-4 { color: #ffd700; }
-        @keyframes decoBlink {
-            0% { opacity: 0.7; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1.1); }
-        }
-
-        /* 树干：手机端紧凑显示 */
-        .trunk {
-            font-size: 5vw;
-            color: #148032;
-            font-weight: bold;
-            text-align: center;
-            text-shadow: 0 0 3px rgba(255,255,255,0.8);
-            line-height: 1.3;
-            animation: textFlicker 2.5s alternate infinite, treeSway 6s alternate infinite;
-        }
-
-        /* 祝福语（手机端适配） */
-        .footer-text {
-            margin-top: 10px;
-            color: #19a347;
-            font-size: 4vw;
-            text-shadow: 0 0 2px rgba(255,255,255,0.6);
-            animation: textFlicker 3s alternate infinite;
-        }
-
-        /* 雪花（手机端简化） */
-        .snowflake {
-            position: absolute;
-            color: #999;
-            font-size: 3vw;
-            top: -20px;
-            animation: snowfall 10s linear infinite, snowSway 3s alternate infinite;
-            z-index: 1;
-        }
-        @keyframes snowfall {
-            to { transform: translateY(100vh) rotate(360deg); }
-        }
-        @keyframes snowSway {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(10px); }
-        }
-    </style>
+      }
+    }
+  </style>
 </head>
-<body>
-    <div class="tree-top">★</div>
-    <div id="treeContainer"></div>
-    <div class="trunk">
-        v我50<br>
-        v我50<br>
-        v我50
+
+<body class="bg-gray-900 min-h-screen overflow-hidden relative">
+  <!-- 雪花容器 -->
+  <div id="snow-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10"></div>
+  
+  <!-- 圣诞树主体 -->
+  <main class="relative z-20 flex justify-center items-center min-h-screen p-4">
+    <div class="christmas-tree relative">
+      <!-- 树顶星星 -->
+      <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 z-30">
+        <i class="fa fa-star text-4xl text-christmas-gold text-shadow-glow star-pulse"></i>
+      </div>
+      
+      <!-- 树干（下移位置避免重叠，增加高度） -->
+      <div class="absolute bottom-[-50px] left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center justify-center w-16 gap-1">
+        <span class="text-christmas-brown text-lg font-bold">v我50</span>
+        <span class="text-christmas-brown text-lg font-bold">v我50</span>
+        <span class="text-christmas-brown text-lg font-bold">v我50</span>
+        <span class="text-christmas-brown text-lg font-bold">v我50</span>
+      </div>
+      
+      <!-- 伞形圣诞树（增加文字密度，缩小间距） -->
+      <div class="tree-layer relative">
+        <!-- 第1层（顶层） -->
+        <div class="flex justify-center py-0.5">
+          <span class="text-christmas-green text-base mx-1 tree-text">v我50</span>
+          <span class="text-christmas-green text-base mx-1 tree-text">v我50</span>
+          <span class="text-christmas-green text-base mx-1 tree-text">v我50</span>
+        </div>
+        
+        <!-- 第2层 -->
+        <div class="flex justify-center py-0.5">
+          <span class="text-christmas-green text-base mx-1 tree-text">v我50</span>
+          <span class="text-christmas-gold text-base mx-1 tree-text ornament-sway">v我50</span>
+          <span class="text-christmas-green text-base mx-1 tree-text">v我50</span>
+          <span class="text-christmas-green text-base mx-1 tree-text">v我50</span>
+          <span class="text-christmas-gold text-base mx-1 tree-text ornament-sway">v我50</span>
+          <span class="text-christmas-green text-base mx-1 tree-text">v我50</span>
+        </div>
+        
+        <!-- 第3层 -->
+        <div class="flex justify-center py-0.5">
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-red text-lg mx-1 tree-text-lg ornament-sway">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-red text-lg mx-1 tree-text-lg ornament-sway">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+        </div>
+        
+        <!-- 第4层 -->
+        <div class="flex justify-center py-0.5 flex-wrap justify-center">
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-gold text-lg mx-1 tree-text-lg ornament-sway">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-gold text-lg mx-1 tree-text-lg ornament-sway">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+          <span class="text-christmas-green text-lg mx-1 tree-text-lg">v我50</span>
+        </div>
+        
+        <!-- 第5层 -->
+        <div class="flex justify-center py-0.5 flex-wrap justify-center">
+          <span class="text-christmas-green text-xl mx-1">v我50</span>
+          <span class="text-christmas-green text-xl mx-1">v我50</span>
+          <span class="text-christmas-red text-xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-green text-xl mx-1">v我50</span>
+          <span class="text-christmas-green text-xl mx-1">v我50</span>
+          <span class="text-christmas-green text-xl mx-1">v我50</span>
+          <span class="text-christmas-red text-xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-green text-xl mx-1">v我50</span>
+          <span class="text-christmas-green text-xl mx-1">v我50</span>
+          <span class="text-christmas-red text-xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-green text-xl mx-1">v我50</span>
+          <span class="text-christmas-green text-xl mx-1">v我50</span>
+        </div>
+        
+        <!-- 第6层 -->
+        <div class="flex justify-center py-0.5 flex-wrap justify-center">
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+          <span class="text-christmas-gold text-xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+          <span class="text-christmas-gold text-xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+          <span class="text-christmas-gold text-xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-xl mx-1">v我50</span>
+        </div>
+        
+        <!-- 第7层（底层，最宽） -->
+        <div class="flex justify-center py-0.5 flex-wrap justify-center">
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-red text-2xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-gold text-2xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-red text-2xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-gold text-2xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+          <span class="text-christmas-red text-2xl mx-1 ornament-sway">v我50</span>
+          <span class="text-christmas-darkGreen text-2xl mx-1">v我50</span>
+        </div>
+      </div>
     </div>
-    <div class="footer-text">v我50，圣诞快乐🎅</div>
+  </main>
+  
+  <footer class="relative z-20 text-center text-gray-300 text-sm p-2">
+    <p>圣诞快乐 <i class="fa fa-gift text-christmas-red ml-1"></i> 平安喜乐</p>
+  </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            renderPhoneTree(); // 手机端专属树形
-            createSnowflakes();
-        });
-
-        // 手机端树形：高度压缩+每行数量减少（避免太宽）
-        function renderPhoneTree() {
-            const treeContainer = document.getElementById('treeContainer');
-            const treeHeight = 10; // 压缩到10行（原16行）
-            const maxPerRow = 4; // 每行最多4个“v我50”（原随高度增加）
-            const decorations = [
-                '<span class="deco deco-1">✨</span>',
-                '<span class="deco deco-2">🎀</span>',
-                '<span class="deco deco-3">❄️</span>'
-            ];
-            
-            let treeHtml = '';
-            for (let i = 0; i < treeHeight; i++) {
-                // 每行数量：从1到4，之后保持4个（避免太宽）
-                const count = Math.min(i + 1, maxPerRow);
-                // 居中空格：按手机屏幕宽度计算
-                const spaces = '&nbsp;'.repeat(Math.max(maxPerRow - count, 0) * 2);
-                let rowText = ('v我50').repeat(count);
-                
-                // 每3行插1个装饰（避免拥挤）
-                if (i % 3 === 1) {
-                    const randomDeco = decorations[Math.floor(Math.random() * decorations.length)];
-                    const insertPos = Math.floor(rowText.length / 2);
-                    rowText = rowText.slice(0, insertPos) + randomDeco + rowText.slice(insertPos);
-                }
-                treeHtml += spaces + rowText + '<br>';
-            }
-            treeContainer.innerHTML = treeHtml;
-        }
-
-        // 手机端雪花数量减少
-        function createSnowflakes() {
-            const snowCount = 15;
-            const body = document.body;
-            for (let i = 0; i < snowCount; i++) {
-                const snow = document.createElement('div');
-                snow.className = 'snowflake';
-                snow.textContent = '❄️';
-                snow.style.left = `${Math.random() * 100}vw`;
-                snow.style.animationDuration = `${8 + Math.random() * 5}s`;
-                body.appendChild(snow);
-            }
-        }
-    </script>
+  <script>
+    // 雪花效果（根据屏幕大小动态调整数量）
+    function createSnowflakes() {
+      const snowContainer = document.getElementById('snow-container');
+      const snowflakeCount = window.innerWidth < 640 ? 60 : 120;
+      
+      snowContainer.innerHTML = '';
+      
+      for (let i = 0; i < snowflakeCount; i++) {
+        const snowflake = document.createElement('div');
+        const size = Math.random() * 8 + 4;
+        const icon = Math.random() > 0.5 ? '❄️' : '❅';
+        
+        snowflake.innerHTML = icon;
+        snowflake.classList.add('snowflake');
+        snowflake.style.left = `${Math.random() * 100}vw`;
+        snowflake.style.top = `-${size}px`;
+        snowflake.style.fontSize = `${size}px`;
+        snowflake.style.opacity = Math.random() * 0.7 + 0.3;
+        snowflake.style.animationDelay = `${Math.random() * 8}s`;
+        snowflake.style.animationDuration = `${Math.random() * 15 + 10}s`;
+        
+        snowContainer.appendChild(snowflake);
+      }
+    }
+    
+    createSnowflakes();
+    window.addEventListener('resize', createSnowflakes);
+  </script>
 </body>
 </html>
