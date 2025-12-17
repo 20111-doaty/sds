@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <!-- 社交平台预览标签（关键：解决分享拦截/无预览问题） -->
-    <meta property="og:title" content="v我50 闪光圣诞树🎄">
-    <meta property="og:description" content="超好看的闪光圣诞树，快来看看～">
+    <!-- 社交分享标签（保留，保证分享正常） -->
+    <meta property="og:title" content="v我50 超大闪光圣诞树🎄">
+    <meta property="og:description" content="超好看的超大闪光圣诞树，适配所有屏幕～">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://picsum.photos/600/400?christmas"> <!-- 预览图 -->
-    <meta property="og:url" content="你的部署链接"> <!-- 替换为实际部署后的链接 -->
+    <meta property="og:image" content="https://picsum.photos/600/400?christmas">
+    <meta property="og:url" content="https://20111-doaty.github.io/sds/圣诞树.html">
     
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v我50 闪光圣诞树🎄</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>v我50 超大闪光圣诞树🎄</title>
     <style>
         * {
             margin: 0;
@@ -20,31 +20,32 @@
 
         body {
             font-family: "Microsoft YaHei", sans-serif;
-            /* 渐变星空背景 */
+            /* 渐变星空背景+适配屏幕 */
             background: linear-gradient(135deg, #050529, #1a0f3f, #0f1a3f);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 2vw; /* 相对单位适配屏幕 */
             overflow-x: hidden;
-            /* 背景星星点点 */
+            /* 背景星星点点（适配屏幕密度） */
             background-image: 
-                radial-gradient(circle 2px at 20px 30px, #fff, transparent),
-                radial-gradient(circle 1px at 40px 80px, #fff, transparent),
-                radial-gradient(circle 2px at 80px 120px, #fff, transparent),
-                radial-gradient(circle 1px at 140px 60px, #fff, transparent);
-            background-size: 200px 200px;
+                radial-gradient(circle 0.1vw at 2vw 3vw, #fff, transparent),
+                radial-gradient(circle 0.05vw at 4vw 8vw, #fff, transparent),
+                radial-gradient(circle 0.1vw at 8vw 12vw, #fff, transparent),
+                radial-gradient(circle 0.05vw at 14vw 6vw, #fff, transparent);
+            background-size: 20vw 20vw; /* 相对单位 */
         }
 
-        /* 顶部星星 */
+        /* 顶部超大星星（适配屏幕） */
         .tree-top {
-            font-size: 30px;
+            font-size: 4vw; /* 相对屏幕宽度，自动缩放 */
             color: #ffd700;
-            margin-bottom: -15px;
+            margin-bottom: -1.5vw;
             animation: rotateStar 5s linear infinite, starGlow 2s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 8px #ffd700);
+            filter: drop-shadow(0 0 1vw #ffd700); /* 光晕适配屏幕 */
+            z-index: 10;
         }
 
         @keyframes rotateStar {
@@ -53,57 +54,57 @@
         }
 
         @keyframes starGlow {
-            0% { filter: drop-shadow(0 0 8px #ffd700); }
-            100% { filter: drop-shadow(0 0 15px #ffd700); }
+            0% { filter: drop-shadow(0 0 1vw #ffd700); }
+            100% { filter: drop-shadow(0 0 2vw #ffd700); }
         }
 
-        /* 圣诞树主体 */
+        /* 圣诞树主体（超大+适配） */
         #treeContainer {
-            font-size: 16px;
+            font-size: 2.2vw; /* 核心：相对单位，屏幕越大字体越大 */
             line-height: 1;
             text-align: center;
             white-space: pre-wrap;
-            margin: 10px 0;
-            /* 多色渐变文字 */
-            background: linear-gradient(120deg, #34d399, #10b981, #059669, #f87171, #ef4444);
+            margin: 1vw 0;
+            /* 多色渐变文字（更丰富） */
+            background: linear-gradient(120deg, #34d399, #10b981, #059669, #f87171, #ef4444, #fbbf24);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             position: relative;
+            z-index: 5;
         }
 
-        /* 闪光装饰（每个装饰独立动画） */
+        /* 彩色装饰（独立闪光，更灵动） */
         .deco {
             display: inline-block;
-            animation: blink 1.5s ease-in-out infinite alternate;
-            color: #ffd700;
-            filter: drop-shadow(0 0 5px #ffd700);
+            animation: blink 1.2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 0.5vw currentColor);
         }
-
-        .deco-1 { animation-delay: 0s; }
-        .deco-2 { animation-delay: 0.3s; }
-        .deco-3 { animation-delay: 0.6s; }
-        .deco-4 { animation-delay: 0.9s; }
+        .deco-1 { color: #ffd700; animation-delay: 0s; }
+        .deco-2 { color: #ec4899; animation-delay: 0.2s; }
+        .deco-3 { color: #38bdf8; animation-delay: 0.4s; }
+        .deco-4 { color: #a855f7; animation-delay: 0.6s; }
 
         @keyframes blink {
-            0% { opacity: 0.6; transform: scale(0.9); }
+            0% { opacity: 0.7; transform: scale(0.9); }
             100% { opacity: 1; transform: scale(1.1); }
         }
 
-        /* 树干样式 */
+        /* 树干（更粗+适配） */
         .trunk {
             color: #8b4513;
             font-weight: bold;
-            text-shadow: 0 0 3px #5c3317;
-            margin-top: 5px;
+            text-shadow: 0 0 0.5vw #5c3317;
+            margin-top: 1vw;
+            font-size: 2.5vw; /* 树干比主体稍大，更醒目 */
         }
 
-        /* 底部祝福语 */
+        /* 底部祝福语（适配） */
         .footer-text {
-            margin-top: 20px;
+            margin-top: 2vw;
             color: #f0f8ff;
-            font-size: 18px;
-            text-shadow: 0 0 5px #34d399;
+            font-size: 2vw;
+            text-shadow: 0 0 0.8vw #34d399;
             animation: textFade 3s ease-in-out infinite alternate;
         }
 
@@ -112,17 +113,42 @@
             100% { opacity: 1; }
         }
 
-        /* 响应式适配 */
-        @media (max-width: 768px) {
-            #treeContainer { font-size: 14px; }
-            .tree-top { font-size: 26px; }
-            .footer-text { font-size: 16px; }
+        /* 雪花飘落特效（新增，更圣诞） */
+        .snowflake {
+            position: absolute;
+            color: #fff;
+            opacity: 0.7;
+            animation: snowfall linear infinite;
+            font-size: 1.5vw;
+            z-index: 1;
         }
 
+        @keyframes snowfall {
+            from {
+                transform: translateY(-5vw) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 精细化响应式（适配小屏） */
+        @media (max-width: 768px) {
+            #treeContainer { font-size: 3.5vw; }
+            .tree-top { font-size: 6vw; margin-bottom: -2.5vw; }
+            .trunk { font-size: 4vw; }
+            .footer-text { font-size: 3vw; }
+        }
         @media (max-width: 480px) {
-            #treeContainer { font-size: 12px; }
-            .tree-top { font-size: 22px; }
-            .footer-text { font-size: 14px; }
+            #treeContainer { font-size: 4.5vw; }
+            .tree-top { font-size: 7vw; margin-bottom: -3vw; }
+            .trunk { font-size: 5vw; }
+            .footer-text { font-size: 4vw; }
         }
     </style>
 </head>
@@ -131,7 +157,7 @@
     <div class="tree-top">★</div>
     <!-- 圣诞树主体 -->
     <div id="treeContainer"></div>
-    <!-- 树干（单独样式） -->
+    <!-- 树干 -->
     <div class="trunk" id="trunkContainer"></div>
     <!-- 底部祝福语 -->
     <div class="footer-text">v我50，圣诞快乐🎅</div>
@@ -140,26 +166,31 @@
         // 页面加载自动生成圣诞树
         document.addEventListener('DOMContentLoaded', () => {
             renderChristmasTree();
+            createSnowflakes(); // 生成雪花
         });
 
-        // 生成美观的锥形圣诞树（带分层装饰）
+        // 生成超大锥形圣诞树（16行，更饱满）
         function renderChristmasTree() {
             const treeContainer = document.getElementById('treeContainer');
             const trunkContainer = document.getElementById('trunkContainer');
-            const treeHeight = 14; // 主体高度（锥形更自然）
-            const decorations = ['<span class="deco deco-1">✨</span>', '<span class="deco deco-2">❄️</span>', '<span class="deco deco-3">🎀</span>', '<span class="deco deco-4">🌟</span>'];
+            const treeHeight = 16; // 高度增加到16行，更大更饱满
+            const decorations = [
+                '<span class="deco deco-1">✨</span>',
+                '<span class="deco deco-2">🎀</span>',
+                '<span class="deco deco-3">❄️</span>',
+                '<span class="deco deco-4">🌟</span>'
+            ];
             
             let treeHtml = '';
-            // 生成主体（锥形：每行字符数递增，间距更自然）
+            // 生成主体（锥形更自然，间距优化）
             for (let i = 0; i < treeHeight; i++) {
-                // 居中空格（随行数减少，形成锥形）
+                // 居中空格（相对单位，适配屏幕）
                 const spaces = '&nbsp;'.repeat(treeHeight - i - 1);
-                // 基础字符：v我50 之间加少量空格，更蓬松
+                // 基础字符：v我50 加少量空格，更蓬松
                 let rowText = ('v我50&nbsp;').repeat(i + 1).trim();
-                // 每2行插入装饰，避免杂乱
-                if (i % 2 === 1 && i > 2) {
+                // 每2行插入装饰，密度更高更漂亮
+                if (i % 2 === 1) {
                     const randomDeco = decorations[Math.floor(Math.random() * decorations.length)];
-                    // 装饰插入到行中间，更美观
                     const insertPos = Math.floor(rowText.length / 2);
                     rowText = rowText.slice(0, insertPos) + randomDeco + rowText.slice(insertPos);
                 }
@@ -167,9 +198,29 @@
             }
             treeContainer.innerHTML = treeHtml;
 
-            // 生成树干（更粗，居中）
+            // 生成更粗的树干（4行，更稳）
             const trunkSpaces = '&nbsp;'.repeat(treeHeight - 1);
-            trunkContainer.innerHTML = trunkSpaces + 'v我50<br>' + trunkSpaces + 'v我50<br>' + trunkSpaces + 'v我50';
+            trunkContainer.innerHTML = 
+                trunkSpaces + 'v我50<br>' + 
+                trunkSpaces + 'v我50<br>' + 
+                trunkSpaces + 'v我50<br>' +
+                trunkSpaces + 'v我50';
+        }
+
+        // 生成雪花飘落特效（新增）
+        function createSnowflakes() {
+            const snowCount = 50; // 雪花数量
+            const body = document.body;
+            for (let i = 0; i < snowCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = '❄️';
+                // 随机位置/大小/动画时长
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                snowflake.style.animationDuration = `${5 + Math.random() * 10}s`;
+                snowflake.style.animationDelay = `${Math.random() * 5}s`;
+                body.appendChild(snowflake);
+            }
         }
     </script>
 </body>
