@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>美观自适应圣诞树</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --base-size: clamp(11px, 2.2vw, 16px);
+      --layer-gap: clamp(1px, 0.5vh, 3px);
+      --tree-width: min(90vw, 800px);
+    }
+
+    body {
+      background: linear-gradient(180deg, #0b1120 0%, #1a202c 100%);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+    }
+
+    /* 圣诞树主容器 */
+    .christmas-tree {
+      width: var(--tree-width);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding: max(2vh, 20px) 10px max(1vh, 10px);
+      margin: 0 auto;
+    }
+
+    /* 树顶星 */
+    .tree-top-star {
+      position: relative;
+      z-index: 20;
+      margin-bottom: 1vh;
+    }
+    
+    .star {
+      font-size: clamp(28px, 6vw, 42px);
+      color: #fbbf24;
+      text-shadow: 0 0 15px #fbbf24, 0 0 30px #fbbf24;
+      animation: starTwinkle 1.5s infinite alternate;
+    }
+    
+    @keyframes starTwinkle {
+      0% { opacity: 0.7; transform: scale(0.95) rotate(5deg); }
+      100% { opacity: 1; transform: scale(1.1) rotate(-5deg); }
+    }
+
+    /* 圣诞树主体 - 更立体的伞形结构 */
+    .tree-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      padding-bottom: 2vh;
+    }
+
+    /* 树层 - 优化层间距和比例 */
+    .tree-level {
+      display: flex;
+      justify-content: center;
+      flex-wrap: nowrap;
+      margin-bottom: var(--layer-gap);
+      width: 100%;
+      position: relative;
+    }
+
+    /* 定义更立体的伞形宽度 - 更多层数，更明显的渐变 */
+    .level-1 { width: 15%; height: 2.5vh; }
+    .level-2 { width: 22%; height: 2.8vh; }
+    .level-3 { width: 30%; height: 3vh; }
+    .level-4 { width: 38%; height: 3.2vh; }
+    .level-5 { width: 46%; height: 3.4vh; }
+    .level-6 { width: 54%; height: 3.6vh; }
+    .level-7 { width: 62%; height: 3.8vh; }
+    .level-8 { width: 70%; height: 4vh; }
+    .level-9 { width: 78%; height: 4.2vh; }
+    .level-10 { width: 86%; height: 4.4vh; }
+    .level-11 { width: 94%; height: 4.6vh; }
+    .level-12 { width: 100%; height: 4.8vh; }
+    .level-13 { width: 96%; height: 4.6vh; }
+    .level-14 { width: 92%; height: 4.4vh; }
+    .level-15 { width: 88%; height: 4.2vh; }
+    .level-16 { width: 84%; height: 4vh; }
+
+    /* 跳跃文字效果 - 优化动画 */
+    .tree-text {
+      display: inline-block;
+      animation: jump 1.8s infinite alternate;
+      margin: 0 0.3px;
+      line-height: 1;
+      white-space: nowrap;
+      position: relative;
+      z-index: 2;
+      transform-origin: center bottom;
+    }
+    
+    @keyframes jump {
+      0% { 
+        transform: translateY(0) scale(1); 
+        text-shadow: 0 0 3px currentColor; 
+      }
+      50% { 
+        transform: translateY(-4px) scale(1.05); 
+        text-shadow: 0 0 8px currentColor, 0 0 12px currentColor; 
+      }
+      100% { 
+        transform: translateY(0) scale(1); 
+        text-shadow: 0 0 3px currentColor; 
+      }
+    }
+    
+    /* 不同延迟 */
+    .tree-text:nth-child(5n) { animation-delay: 0.1s; }
+    .tree-text:nth-child(5n+1) { animation-delay: 0.3s; }
+    .tree-text:nth-child(5n+2) { animation-delay: 0.5s; }
+    .tree-text:nth-child(5n+3) { animation-delay: 0.7s; }
+    .tree-text:nth-child(5n+4) { animation-delay: 0.9s; }
+
+    /* 文字颜色 */
+    .text-green {
+      background: linear-gradient(45deg, #10b981, #34d399, #10b981);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: bold;
+    }
+    .text-red {
+      background: linear-gradient(45deg, #ef4444, #f87171, #ef4444);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: bold;
+    }
+    .text-gold {
+      background: linear-gradient(45deg, #f59e0b, #fbbf24, #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: bold;
+    }
+    .text-blue {
+      background: linear-gradient(45deg, #3b82f6, #60a5fa, #3b82f6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: bold;
+    }
+    .text-brown {
+      background: linear-gradient(45deg, #92400e, #b45309, #92400e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: bold;
+    }
+
+    /* 矮树干 */
+    .tree-trunk {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1vh;
+      width: clamp(35px, 8vw, 60px);
+      height: auto;
+      min-height: 0;
+    }
+    
+    .trunk-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.5px;
+    }
+    
+    .trunk-text {
+      font-size: clamp(9px, 1.8vw, 12px);
+      animation: trunkPulse 4s infinite alternate;
+      margin: 0 1px;
+    }
+    
+    @keyframes trunkPulse {
+      0% { opacity: 0.6; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1.02); }
+    }
+
+    /* 树摇摆动画 */
+    .tree-sway {
+      animation: sway 15s infinite alternate ease-in-out;
+      transform-origin: center bottom;
+    }
+    
+    @keyframes sway {
+      0% { transform: rotate(-2deg) translateY(0); }
+      50% { transform: rotate(0deg) translateY(-2px); }
+      100% { transform: rotate(2deg) translateY(0); }
+    }
+
+    /* 雪花效果 */
+    .snowflake {
+      position: fixed;
+      top: -20px;
+      color: white;
+      pointer-events: none;
+      z-index: 1;
+      animation: snowFall linear infinite;
+      opacity: 0.8;
+      text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+    }
+    
+    @keyframes snowFall {
+      0% { 
+        transform: translateY(0) rotate(0deg) translateX(0); 
+        opacity: 0.7; 
+      }
+      100% { 
+        transform: translateY(100vh) rotate(720deg) translateX(50px); 
+        opacity: 0.2;
+      }
+    }
+
+    /* 金色铃铛 - 挂在树上 */
+    .tree-bell {
+      display: inline-block;
+      position: relative;
+      z-index: 3;
+      margin: 0 1px;
+      font-size: clamp(12px, 2.5vw, 16px);
+      animation: bellSwing 4s infinite alternate ease-in-out;
+      filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.9));
+      transform-origin: top center;
+    }
+    
+    @keyframes bellSwing {
+      0% { transform: rotate(-12deg) translateY(-1px); }
+      50% { transform: rotate(0deg) translateY(0); }
+      100% { transform: rotate(12deg) translateY(-1px); }
+    }
+
+    /* 底部文字 */
+    .tree-footer {
+      margin-top: max(2vh, 20px);
+      text-align: center;
+      padding: clamp(6px, 1.5vh, 10px) clamp(12px, 3vw, 20px);
+      background: linear-gradient(45deg, #064e3b, #065f46, #064e3b);
+      border-radius: 12px;
+      border: 2px solid rgba(52, 211, 153, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .footer-text {
+      color: #a7f3d0;
+      font-weight: bold;
+      font-size: clamp(12px, 2vw, 16px);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 响应式调整 */
+    @media (max-height: 600px) {
+      .tree-level {
+        margin-bottom: 1px;
+      }
+      
+      .level-1 { height: 3vh; }
+      .level-2 { height: 3.2vh; }
+      .level-3 { height: 3.4vh; }
+      .level-4 { height: 3.6vh; }
+      .level-5 { height: 3.8vh; }
+      .level-6 { height: 4vh; }
+      .level-7 { height: 4.2vh; }
+      .level-8 { height: 4.4vh; }
+      .level-9 { height: 4.6vh; }
+      .level-10 { height: 4.8vh; }
+      .level-11 { height: 5vh; }
+      .level-12 { height: 5.2vh; }
+      .level-13 { height: 5vh; }
+      .level-14 { height: 4.8vh; }
+      .level-15 { height: 4.6vh; }
+      .level-16 { height: 4.4vh; }
+    }
+    
+    @media (max-width: 768px) {
+      .tree-text {
+        margin: 0 0.2px;
+      }
+      
+      .level-1 { width: 18%; }
+      .level-2 { width: 26%; }
+      .level-3 { width: 34%; }
+      .level-4 { width: 42%; }
+      .level-5 { width: 50%; }
+      .level-6 { width: 58%; }
+      .level-7 { width: 66%; }
+      .level-8 { width: 74%; }
+      .level-9 { width: 82%; }
+      .level-10 { width: 90%; }
+      .level-11 { width: 96%; }
+      .level-12 { width: 100%; }
+      .level-13 { width: 98%; }
+      .level-14 { width: 94%; }
+      .level-15 { width: 90%; }
+      .level-16 { width: 86%; }
+    }
+    
+    @media (max-width: 480px) {
+      :root {
+        --base-size: clamp(10px, 2vw, 14px);
+      }
+      
+      .tree-text {
+        margin: 0 0.1px;
+      }
+      
+      .tree-level {
+        margin-bottom: 0.5px;
+      }
+    }
+
+    /* 全屏按钮 */
+    .fullscreen-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(16, 185, 129, 0.8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .fullscreen-btn:hover {
+      background: rgba(16, 185, 129, 1);
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 雪花容器 -->
+  <div id="snow-container"></div>
+  
+  <!-- 圣诞树主体 -->
+  <div class="christmas-tree tree-sway">
+    <!-- 树顶星 -->
+    <div class="tree-top-star">
+      <div class="star">★</div>
+    </div>
+    
+    <!-- 圣诞树主体 - 立体的伞形结构 -->
+    <div class="tree-body">
+      <!-- 第1层（顶部） -->
+      <div class="tree-level level-1">
+        <span class="tree-text text-gold" style="font-size: calc(var(--base-size) * 0.9);">v我50</span>
+        <span class="tree-text text-green" style="font-size: calc(var(--base-size) * 0.9);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: calc(var(--base-size) * 0.9);">v我50</span>
+      </div>
+      
+      <!-- 第2层 -->
+      <div class="tree-level level-2">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第3层 -->
+      <div class="tree-level level-3">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第4层 -->
+      <div class="tree-level level-4">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第5层 -->
+      <div class="tree-level level-5">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第6层 -->
+      <div class="tree-level level-6">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第7层 - 添加铃铛 -->
+      <div class="tree-level level-7">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-bell">🔔</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第8层 -->
+      <div class="tree-level level-8">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第9层 -->
+      <div class="tree-level level-9">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第10层 - 添加铃铛 -->
+      <div class="tree-level level-10">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-bell">🔔</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第11层 -->
+      <div class="tree-level level-11">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第12层 -->
+      <div class="tree-level level-12">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第13层 - 添加铃铛 -->
+      <div class="tree-level level-13">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-bell">🔔</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第14层 -->
+      <div class="tree-level level-14">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第15层 -->
+      <div class="tree-level level-15">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 第16层 -->
+      <div class="tree-level level-16">
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+      </div>
+      
+      <!-- 矮树干 - 只有2行 -->
+      <div class="tree-trunk">
+        <div class="trunk-row">
+          <span class="trunk-text text-brown">v我50</span>
+          <span class="trunk-text text-brown">v我50</span>
+          <span class="trunk-text text-brown">v我50</span>
+        </div>
+        <div class="trunk-row">
+          <span class="trunk-text text-brown">v我50</span>
+          <span class="trunk-text text-brown">v我50</span>
+          <span class="trunk-text text-brown">v我50</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 底部文字 -->
+    <div class="tree-footer">
+      <div class="footer-text">🎄 圣诞快乐！记得v我50哦！ 🎄</div>
+    </div>
+  </div>
+
+  <!-- 全屏按钮 -->
+  <button class="fullscreen-btn" id="fullscreen-btn" title="全屏显示">⛶</button>
+
+  <script>
+    // 创建雪花
+    function createSnowflakes() {
+      const snowContainer = document.getElementById('snow-container');
+      const snowflakes = ['❄', '❅', '❆', '*', '·'];
+      
+      // 根据屏幕大小调整雪花数量
+      const screenArea = window.innerWidth * window.innerHeight;
+      const snowflakeCount = Math.min(300, Math.floor(screenArea / 4000));
+      
+      for (let i = 0; i < snowflakeCount; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+        
+        // 随机位置
+        snowflake.style.left = Math.random() * 100 + 'vw';
+        
+        // 小尺寸雪花
+        const size = Math.random() * 10 + 4;
+        snowflake.style.fontSize = size + 'px';
+        
+        // 随机动画时长
+        const duration = Math.random() * 10 + 5;
+        snowflake.style.animationDuration = duration + 's';
+        
+        // 随机延迟
+        snowflake.style.animationDelay = Math.random() * 10 + 's';
+        
+        // 随机透明度
+        snowflake.style.opacity = Math.random() * 0.6 + 0.3;
+        
+        // 随机水平飘动
+        const drift = Math.random() * 100 - 50;
+        snowflake.style.setProperty('--drift', drift + 'px');
+        
+        snowContainer.appendChild(snowflake);
+      }
+    }
+    
+    // 调整圣诞树布局
+    function adjustTreeLayout() {
+      // 根据屏幕宽度调整
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      
+      // 调整文字间距
+      const textElements = document.querySelectorAll('.tree-text');
+      let spacing;
+      if (screenWidth < 480) {
+        spacing = '0.1px';
+      } else if (screenWidth < 768) {
+        spacing = '0.2px';
+      } else {
+        spacing = '0.3px';
+      }
+      
+      textElements.forEach(text => {
+        text.style.margin = `0 ${spacing}`;
+      });
+      
+      // 调整铃铛大小
+      const bells = document.querySelectorAll('.tree-bell');
+      const bellSize = Math.max(12, Math.min(18, screenWidth / 30));
+      bells.forEach(bell => {
+        bell.style.fontSize = bellSize + 'px';
+      });
+      
+      // 根据屏幕高度调整树的高度
+      if (screenHeight < 600) {
+        document.documentElement.style.setProperty('--layer-gap', '0.5px');
+      } else {
+        document.documentElement.style.setProperty('--layer-gap', 'clamp(1px, 0.5vh, 3px)');
+      }
+    }
+    
+    // 文字点击效果
+    function addTextClickEffects() {
+      const texts = document.querySelectorAll('.tree-text, .trunk-text, .tree-bell');
+      
+      texts.forEach(text => {
+        text.addEventListener('click', function() {
+          const originalTransform = this.style.transform;
+          const originalTextShadow = this.style.textShadow;
+          
+          if (this.classList.contains('tree-bell')) {
+            // 铃铛点击效果
+            this.style.transform = 'scale(1.6) rotate(15deg)';
+            this.style.textShadow = '0 0 20px #fbbf24';
+            this.style.filter = 'drop-shadow(0 0 12px rgba(245, 158, 11, 1))';
+            
+            // 添加铃铛声音提示
+            console.log('叮当~');
+          } else {
+            // 文字点击效果
+            this.style.transform = 'scale(1.4)';
+            this.style.textShadow = '0 0 15px currentColor';
+          }
+          
+          setTimeout(() => {
+            this.style.transform = originalTransform;
+            this.style.textShadow = originalTextShadow;
+            if (this.classList.contains('tree-bell')) {
+              this.style.filter = 'drop-shadow(0 0 6px rgba(245, 158, 11, 0.9))';
+            }
+          }, 400);
+        });
+      });
+    }
+    
+    // 全屏功能
+    function setupFullscreen() {
+      const fullscreenBtn = document.getElementById('fullscreen-btn');
+      
+      fullscreenBtn.addEventListener('click', function() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => {
+            console.log(`全屏请求失败: ${err.message}`);
+          });
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+        }
+      });
+      
+      // 监听全屏变化
+      document.addEventListener('fullscreenchange', function() {
+        if (document.fullscreenElement) {
+          fullscreenBtn.innerHTML = '❐';
+          fullscreenBtn.title = '退出全屏';
+        } else {
+          fullscreenBtn.innerHTML = '⛶';
+          fullscreenBtn.title = '全屏显示';
+        }
+      });
+    }
+    
+    // 初始化页面
+    document.addEventListener('DOMContentLoaded', function() {
+      createSnowflakes();
+      adjustTreeLayout();
+      addTextClickEffects();
+      setupFullscreen();
+      
+      // 窗口大小改变时调整布局
+      let resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(adjustTreeLayout, 200);
+      });
+    });
+  </script>
+</body>
+</html>
