@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 社交平台预览标签（关键：解决分享拦截/无预览问题） -->
+    <meta property="og:title" content="v我50 闪光圣诞树🎄">
+    <meta property="og:description" content="超好看的闪光圣诞树，快来看看～">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://picsum.photos/600/400?christmas"> <!-- 预览图 -->
+    <meta property="og:url" content="你的部署链接"> <!-- 替换为实际部署后的链接 -->
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v我50 闪光圣诞树🎄</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            /* 渐变星空背景 */
+            background: linear-gradient(135deg, #050529, #1a0f3f, #0f1a3f);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            /* 背景星星点点 */
+            background-image: 
+                radial-gradient(circle 2px at 20px 30px, #fff, transparent),
+                radial-gradient(circle 1px at 40px 80px, #fff, transparent),
+                radial-gradient(circle 2px at 80px 120px, #fff, transparent),
+                radial-gradient(circle 1px at 140px 60px, #fff, transparent);
+            background-size: 200px 200px;
+        }
+
+        /* 顶部星星 */
+        .tree-top {
+            font-size: 30px;
+            color: #ffd700;
+            margin-bottom: -15px;
+            animation: rotateStar 5s linear infinite, starGlow 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 8px #ffd700);
+        }
+
+        @keyframes rotateStar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes starGlow {
+            0% { filter: drop-shadow(0 0 8px #ffd700); }
+            100% { filter: drop-shadow(0 0 15px #ffd700); }
+        }
+
+        /* 圣诞树主体 */
+        #treeContainer {
+            font-size: 16px;
+            line-height: 1;
+            text-align: center;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            /* 多色渐变文字 */
+            background: linear-gradient(120deg, #34d399, #10b981, #059669, #f87171, #ef4444);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+        }
+
+        /* 闪光装饰（每个装饰独立动画） */
+        .deco {
+            display: inline-block;
+            animation: blink 1.5s ease-in-out infinite alternate;
+            color: #ffd700;
+            filter: drop-shadow(0 0 5px #ffd700);
+        }
+
+        .deco-1 { animation-delay: 0s; }
+        .deco-2 { animation-delay: 0.3s; }
+        .deco-3 { animation-delay: 0.6s; }
+        .deco-4 { animation-delay: 0.9s; }
+
+        @keyframes blink {
+            0% { opacity: 0.6; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* 树干样式 */
+        .trunk {
+            color: #8b4513;
+            font-weight: bold;
+            text-shadow: 0 0 3px #5c3317;
+            margin-top: 5px;
+        }
+
+        /* 底部祝福语 */
+        .footer-text {
+            margin-top: 20px;
+            color: #f0f8ff;
+            font-size: 18px;
+            text-shadow: 0 0 5px #34d399;
+            animation: textFade 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes textFade {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            #treeContainer { font-size: 14px; }
+            .tree-top { font-size: 26px; }
+            .footer-text { font-size: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            #treeContainer { font-size: 12px; }
+            .tree-top { font-size: 22px; }
+            .footer-text { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部星星 -->
+    <div class="tree-top">★</div>
+    <!-- 圣诞树主体 -->
+    <div id="treeContainer"></div>
+    <!-- 树干（单独样式） -->
+    <div class="trunk" id="trunkContainer"></div>
+    <!-- 底部祝福语 -->
+    <div class="footer-text">v我50，圣诞快乐🎅</div>
+
+    <script>
+        // 页面加载自动生成圣诞树
+        document.addEventListener('DOMContentLoaded', () => {
+            renderChristmasTree();
+        });
+
+        // 生成美观的锥形圣诞树（带分层装饰）
+        function renderChristmasTree() {
+            const treeContainer = document.getElementById('treeContainer');
+            const trunkContainer = document.getElementById('trunkContainer');
+            const treeHeight = 14; // 主体高度（锥形更自然）
+            const decorations = ['<span class="deco deco-1">✨</span>', '<span class="deco deco-2">❄️</span>', '<span class="deco deco-3">🎀</span>', '<span class="deco deco-4">🌟</span>'];
+            
+            let treeHtml = '';
+            // 生成主体（锥形：每行字符数递增，间距更自然）
+            for (let i = 0; i < treeHeight; i++) {
+                // 居中空格（随行数减少，形成锥形）
+                const spaces = '&nbsp;'.repeat(treeHeight - i - 1);
+                // 基础字符：v我50 之间加少量空格，更蓬松
+                let rowText = ('v我50&nbsp;').repeat(i + 1).trim();
+                // 每2行插入装饰，避免杂乱
+                if (i % 2 === 1 && i > 2) {
+                    const randomDeco = decorations[Math.floor(Math.random() * decorations.length)];
+                    // 装饰插入到行中间，更美观
+                    const insertPos = Math.floor(rowText.length / 2);
+                    rowText = rowText.slice(0, insertPos) + randomDeco + rowText.slice(insertPos);
+                }
+                treeHtml += spaces + rowText + '<br>';
+            }
+            treeContainer.innerHTML = treeHtml;
+
+            // 生成树干（更粗，居中）
+            const trunkSpaces = '&nbsp;'.repeat(treeHeight - 1);
+            trunkContainer.innerHTML = trunkSpaces + 'v我50<br>' + trunkSpaces + 'v我50<br>' + trunkSpaces + 'v我50';
+        }
+    </script>
+</body>
+</html>
