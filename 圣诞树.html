@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>美观自适应圣诞树</title>
+  <title>金色圣诞树</title>
   <script src="https://cdn.tailwindcss.com"></script>
   
   <style>
@@ -80,7 +80,7 @@
       position: relative;
     }
 
-    /* 定义更立体的伞形宽度 - 更多层数，更明显的渐变 */
+    /* 定义伞形宽度 - 移除了第15、16层，调整了层数 */
     .level-1 { width: 15%; height: 2.5vh; }
     .level-2 { width: 22%; height: 2.8vh; }
     .level-3 { width: 30%; height: 3vh; }
@@ -95,8 +95,9 @@
     .level-12 { width: 100%; height: 4.8vh; }
     .level-13 { width: 96%; height: 4.6vh; }
     .level-14 { width: 92%; height: 4.4vh; }
-    .level-15 { width: 88%; height: 4.2vh; }
-    .level-16 { width: 84%; height: 4vh; }
+    /* 移除了原level-15和level-16 */
+    .level-15 { width: 95%; height: 4.8vh; }  /* 倒数第二层更宽 */
+    .level-16 { width: 98%; height: 5vh; }    /* 最宽层 */
 
     /* 跳跃文字效果 - 优化动画 */
     .tree-text {
@@ -132,7 +133,7 @@
     .tree-text:nth-child(5n+3) { animation-delay: 0.7s; }
     .tree-text:nth-child(5n+4) { animation-delay: 0.9s; }
 
-    /* 文字颜色 */
+    /* 文字颜色 - 增强金色发光效果 */
     .text-green {
       background: linear-gradient(45deg, #10b981, #34d399, #10b981);
       -webkit-background-clip: text;
@@ -147,13 +148,30 @@
       color: transparent;
       font-weight: bold;
     }
-    .text-gold {
-      background: linear-gradient(45deg, #f59e0b, #fbbf24, #f59e0b);
+    
+    /* 增强的金色发光文字 - 树冠上部使用 */
+    .text-gold-glow {
+      background: linear-gradient(45deg, #fbbf24, #fde047, #fbbf24, #f59e0b);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       font-weight: bold;
+      text-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
+      animation: goldGlow 2s infinite alternate;
     }
+    
+    @keyframes goldGlow {
+      0% { 
+        text-shadow: 0 0 10px rgba(251, 191, 36, 0.7), 
+                     0 0 20px rgba(251, 191, 36, 0.5); 
+      }
+      100% { 
+        text-shadow: 0 0 15px rgba(251, 191, 36, 0.9), 
+                     0 0 25px rgba(251, 191, 36, 0.7),
+                     0 0 35px rgba(251, 191, 36, 0.5); 
+      }
+    }
+    
     .text-blue {
       background: linear-gradient(45deg, #3b82f6, #60a5fa, #3b82f6);
       -webkit-background-clip: text;
@@ -288,8 +306,8 @@
       .level-12 { height: 5.2vh; }
       .level-13 { height: 5vh; }
       .level-14 { height: 4.8vh; }
-      .level-15 { height: 4.6vh; }
-      .level-16 { height: 4.4vh; }
+      .level-15 { height: 5.2vh; }
+      .level-16 { height: 5.4vh; }
     }
     
     @media (max-width: 768px) {
@@ -311,8 +329,8 @@
       .level-12 { width: 100%; }
       .level-13 { width: 98%; }
       .level-14 { width: 94%; }
-      .level-15 { width: 90%; }
-      .level-16 { width: 86%; }
+      .level-15 { width: 96%; }
+      .level-16 { width: 100%; }
     }
     
     @media (max-width: 480px) {
@@ -370,19 +388,19 @@
     
     <!-- 圣诞树主体 - 立体的伞形结构 -->
     <div class="tree-body">
-      <!-- 第1层（顶部） -->
+      <!-- 第1层（顶部）- 使用金色发光文字 -->
       <div class="tree-level level-1">
-        <span class="tree-text text-gold" style="font-size: calc(var(--base-size) * 0.9);">v我50</span>
-        <span class="tree-text text-green" style="font-size: calc(var(--base-size) * 0.9);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: calc(var(--base-size) * 0.9);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: calc(var(--base-size) * 0.9);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: calc(var(--base-size) * 0.9);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: calc(var(--base-size) * 0.9);">v我50</span>
       </div>
       
-      <!-- 第2层 -->
+      <!-- 第2层 - 上部使用金色发光文字 -->
       <div class="tree-level level-2">
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
       </div>
       
@@ -391,7 +409,7 @@
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
@@ -403,7 +421,7 @@
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
@@ -418,7 +436,7 @@
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
@@ -433,7 +451,7 @@
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
@@ -467,7 +485,7 @@
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
@@ -486,7 +504,7 @@
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
@@ -504,7 +522,7 @@
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-bell">🔔</span>
@@ -519,7 +537,7 @@
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
@@ -534,7 +552,7 @@
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
@@ -554,7 +572,7 @@
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-bell">🔔</span>
@@ -565,28 +583,50 @@
       <div class="tree-level level-14">
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
-        <span class="tree-text text-gold" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
       </div>
       
-      <!-- 第15层 -->
+      <!-- 第15层 - 现在为倒数第二层 -->
       <div class="tree-level level-15">
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
       </div>
       
-      <!-- 第16层 -->
+      <!-- 第16层 - 现在为最宽层 -->
       <div class="tree-level level-16">
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-gold-glow" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-blue" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-red" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
+        <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
         <span class="tree-text text-green" style="font-size: var(--base-size);">v我50</span>
       </div>
       
@@ -707,8 +747,12 @@
             
             // 添加铃铛声音提示
             console.log('叮当~');
+          } else if (this.classList.contains('text-gold-glow')) {
+            // 金色发光文字点击效果
+            this.style.transform = 'scale(1.5)';
+            this.style.textShadow = '0 0 20px rgba(251, 191, 36, 1), 0 0 30px rgba(251, 191, 36, 0.8)';
           } else {
-            // 文字点击效果
+            // 普通文字点击效果
             this.style.transform = 'scale(1.4)';
             this.style.textShadow = '0 0 15px currentColor';
           }
